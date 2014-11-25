@@ -174,7 +174,12 @@ gulp.task 'js', ['coffee'], ->
 ## SVG Pipeline
 gulp.task 'svg', ->
 	gulp.src paths.srcSvg
-		.pipe gulp.dest paths.devImg
+		.pipe gp.svgSprites {
+			mode: "symbols",
+			svg: {symbols: "./_img/icons.svg"},
+			preview: {symbols: "./icons.html"}
+		}
+		.pipe gulp.dest paths.devHtml
 		.pipe browserSync.reload {stream:true}
 
 ## PNG Pipeline
@@ -303,7 +308,12 @@ gulp.task 'pro.js', ['pro.coffee'], ->
 gulp.task 'pro.svg', ->
 	gulp.src paths.srcSvg
 		.pipe gp.imagemin()
-		.pipe gulp.dest paths.proImg
+		.pipe gp.svgSprites {
+			mode: "symbols",
+			svg: {symbols: "./_img/icons.svg"},
+			preview: {symbols: "./icons.html"}
+		}
+		.pipe gulp.dest paths.proHtml
 		.pipe browserSync.reload {stream:true}
 
 ## PNG Pipeline
