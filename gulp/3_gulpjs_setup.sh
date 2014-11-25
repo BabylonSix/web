@@ -262,7 +262,7 @@ gulp.task 'pro.jade2html', ->
 gulp.task 'pro.stylus2css', ->
 	gulp.src paths.srcStylus
 		.pipe gp.plumber()
-		.pipe gp.stylus {errors: true, compress: true}
+		.pipe gp.stylus {errors: true, use: [axis(), jeet(), rupture(),typo()]}
 		.pipe gp.combineMediaQueries() # combine the media queries
 		.pipe gp.autoprefixer 'last 12 version', '> 1%', 'ie 8', 'ie 7'
 		# .pipe gp.gzip {append: true}
@@ -307,12 +307,28 @@ gulp.task 'pro.js', ['pro.coffee'], ->
 ## SVG Pipeline
 gulp.task 'pro.svg', ->
 	gulp.src paths.srcSvg
-		.pipe gp.imagemin()
+		.pipe gp.imagemin(svgoPlugins: [
+			{removeViewBox: false},
+			{removeDesc: true},
+			{removeUnknownsAndDefaults: true},
+			{removeUnusedNS: true},
+			{removeEmptyContainers: true},
+			{collapseGroups: true},
+			{removeEditorsNSData: true},
+			{removeEmptyText: true},
+			{removeHiddenElems: true},
+			{removeNonInheritableGroupAttrs: true},
+			{collapseGroups: true},
+			{moveElemsAttrsToGroup: true}
+			{moveGroupAttrsToElems: true},
+			{sortAttrs: true}
+		])
 		.pipe gp.svgSprites {
 			mode: "symbols",
 			svg: {symbols: "./_img/icons.svg"},
 			preview: {symbols: "./icons.html"}
 		}
+		.pipe gp.cleanhtml() # minify svg file
 		.pipe gulp.dest paths.proHtml
 		.pipe browserSync.reload {stream:true}
 
