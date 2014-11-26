@@ -207,6 +207,7 @@ gulp.task 'browser-sync', ->
 	browserSync.init null,
 		server:
 			baseDir: './build/dev/' # server runs on this directory
+		notify: false
 
 ## Reload all Browsers
 gulp.task 'bs-reload', ->
