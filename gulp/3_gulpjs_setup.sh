@@ -38,7 +38,9 @@ gulp        = require 'gulp'                 # Loads gulp
 gp          = do require 'gulp-load-plugins' # Loads all gulp plugins
 browserSync = require 'browser-sync'         # Reloads and Syncs Browsers
 axis        = require 'axis'                 # stylus plugin for awesomeness
-jeet        = require 'jeet'                 # stylus plugin for grids 
+jeet        = require 'jeet'                 # stylus plugin for grids (> IE 7) 
+elf         = require 'elf-grid'             # stylus plugin for grids (> IE 9)
+dragon      = require 'dragon-grid'          # elf => but with one mixin call
 rupture     = require 'rupture'              # stylus plugin for media-queries
 typo        = require 'typographic'          # stylus plugin for typography
 
@@ -123,7 +125,7 @@ gulp.task 'stylus2css', ->
 		# prevents gulp crashes caused by jade/stylus/coffeescript conversions
 		.pipe gp.plumber()
 		# converts Stylus => CSS, shows any errors in terminal
-		.pipe gp.stylus {errors: true, use: [axis(), jeet(), rupture(),typo()]}
+		.pipe gp.stylus {errors: true, use: [axis(), jeet(), elf(), dragon(), rupture(),typo()]}
 		# adds browser prefixes
 		.pipe gp.autoprefixer 'last 12 version', '> 1%', 'ie 8', 'ie 7'
 		# combine the media queries
@@ -262,7 +264,7 @@ gulp.task 'pro.jade2html', ->
 gulp.task 'pro.stylus2css', ->
 	gulp.src paths.srcStylus
 		.pipe gp.plumber()
-		.pipe gp.stylus {errors: true, use: [axis(), jeet(), rupture(),typo()]}
+		.pipe gp.stylus {errors: true, use: [axis(), jeet(), elf(), dragon(), rupture(),typo()]}
 		.pipe gp.combineMediaQueries() # combine the media queries
 		.pipe gp.autoprefixer 'last 12 version', '> 1%', 'ie 8', 'ie 7'
 		# .pipe gp.gzip {append: true}

@@ -9,12 +9,12 @@ function gp.starterContent {
 # index.jade Content
 cat <<EOF >> src/_jade/index.jade
 doctype html
-html(lang="en")
+html(lang="en-US")
 	head
+		title
 		meta(charset="utf-8")
 		meta(name="viewport" content="user-scalable=0 initial-scale=1.0")
 		link(rel="stylesheet" href="_css/style.css")
-		title
 
 	body
 		.site-header-wrapper
@@ -38,9 +38,13 @@ function gp.starterStyle {
 # style.styl Content
 cat <<EOF >> src/_stylus/style.styl
 @import 'axis'
-@import 'jeet'
 @import 'rupture'
 @import 'typographic'
+
+// Grid systems (use one), see https://github.com/corysimmons for descriptions
+// @import 'jeet' // stylus plugin for grids (> IE 7) 
+@import 'elf' // stylus plugin for grids (> IE 9)
+// @import 'dragon' // elf => but with one mixin call
 
 *
 	padding: 0
