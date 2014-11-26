@@ -53,7 +53,8 @@ cat <<EOF >> src/_stylus/style.styl
 	box-sizing: border-box
 	max-width: 100%
 
-edit()
+// edit() // for debugging jeet
+debug() // for debugging elf
 
 EOF
 }
