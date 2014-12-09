@@ -2,7 +2,7 @@ function gp.starterContent {
 # index.jade content
 cat <<EOF >> src/_jade/index.jade
 //- Template Path + siteConfig
-extends _layout/layout
+extends _layout/base
 
 append config
 	//- -var page = { title: "", description: "", keywords: "" }
@@ -41,7 +41,7 @@ EOF
 
 
 # layout.jade content
-cat <<EOF >> src/_jade/_layout/layout.jade
+cat <<EOF >> src/_jade/_layout/base.jade
 <!DOCTYPE html>
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en-US"><![endif]-->
 <!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en-US"><![endif]-->
