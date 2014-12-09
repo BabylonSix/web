@@ -40,7 +40,7 @@ f src/_jade/_components/gallery.jade
 f src/_jade/_components/media.jade
 f src/_jade/_components/nav.jade
 f src/_jade/_components/posts.jade
-f src/_jade/_layout/layout.jade
+f src/_jade/_layout/base.jade
 f src/_jade/_layout/htmlHead.jade
 f src/_jade/_layout/htmlBody.jade
 f src/_jade/_layout/siteHeader.jade

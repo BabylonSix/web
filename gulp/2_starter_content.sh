@@ -78,9 +78,9 @@ title: block title
 
 meta(name="viewport" content="width=device-width, initial-scale=1")
 
-if (page.description && page.description != "Page Description Info… (limit to 200 characters)")
+unless (page.description == "Page Description Info… (limit to 200 characters)")
 	meta(name="description" content="#{page.description}")
-if (page.keywords && page.keywords != "Page Keywords… (limit to 1000 characters)")
+unless (page.keywords == "Page Keywords… (limit to 1000 characters)")
 	meta(name="keywords" content="#{page.keywords}")
 block meta
 
