@@ -37,6 +37,7 @@ cat <<EOF >> gulpfile.coffee
 gulp        = require 'gulp'                 # Loads gulp
 gp          = do require 'gulp-load-plugins' # Loads all gulp plugins
 browserSync = require 'browser-sync'         # Reloads and Syncs Browsers
+marked      = require 'marked'               # For :markdown filter in jade
 axis        = require 'axis'                 # stylus plugin for awesomeness
 jeet        = require 'jeet'                 # stylus plugin for grids (> IE 7) 
 elf         = require 'elf-grid'             # stylus plugin for grids (> IE 9)
@@ -69,7 +70,10 @@ setup =
 paths =
 	## source files
 	srcStylus: 'src/_stylus/style.styl'
-	srcJade:   'src/_jade/**/*.jade'
+	srcJade:  ['src/_jade/**/*.jade',
+						 '!src/_jade/_layout/**/*.jade',
+						 '!src/_jade/_components/**/*.jade',
+						 '!src/_jade/_settings/**/*.jade']
 	srcJs:    ['src/_js/script.js', 'src/_js/**/*.js']
 	srcCoffee: 'src/_coffee/**/*.coffee'
 	srcPng:    'src/_assets/png/**/*.png'

@@ -1,5 +1,5 @@
 function gp.starterContent {
-# index.jade Content
+# index.jade content
 cat <<EOF >> src/_jade/index.jade
 //- Template Path + siteConfig
 extends _layout/layout
@@ -15,8 +15,8 @@ append site-footer
 EOF
 
 
-
-cat <<EOF src/_jade/_settings/config.jade
+# config.jade content
+cat <<EOF >> src/_jade/_settings/config.jade
 //- Set to true to load script to page.
 - var jQuery = false
 - var jQueryMobile = false
@@ -40,8 +40,8 @@ block pageInfo
 EOF
 
 
-
-cat <<EOF src/_jade/_layout/layout.jade
+# layout.jade content
+cat <<EOF >> src/_jade/_layout/layout.jade
 <!DOCTYPE html>
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en-US"><![endif]-->
 <!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en-US"><![endif]-->
@@ -68,8 +68,8 @@ include htmlBody
 EOF
 
 
-
-cat <<EOF src/_jade/_layout/htmlHead.jade
+# htmlHead.jade content
+cat <<EOF >> src/_jade/_layout/htmlHead.jade
 meta(charset="utf-8")
 meta(http-equiv="X-UA-Compatible" content="IE=edge")
 //- #{variable} => Google 'jade interpolation'
@@ -97,8 +97,8 @@ if (webfonts)
 EOF
 
 
-
-cat <<EOF src/_jade/_layout/htmlBody.jade
+# htmlBody.jade content
+cat <<EOF >> src/_jade/_layout/htmlBody.jade
 <!--[if lt IE 7]>
 p.browsehappy You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
 <![endif]-->
@@ -158,8 +158,8 @@ script(src="_js/script.js")
 EOF
 
 
-
-cat <<EOF src/_jade/_layout/siteHeader.jade
+# siteHeader.jade content
+cat <<EOF >> src/_jade/_layout/siteHeader.jade
 block site-header
 	//- default site header
 	.logo
@@ -168,19 +168,21 @@ block site-header
 EOF
 
 
-
-cat <<EOF src/_jade/_layout/siteBody.jade
+# siteBody.jade content
+cat <<EOF >> src/_jade/_layout/siteBody.jade
 block site-body
 	//- default site body
 EOF
 
 
-
-cat <<EOF src/_jade/_layout/siteFooter.jade
+# siteFooter.jade content
+cat <<EOF >> src/_jade/_layout/siteFooter.jade
 block site-footer
 	//- default site footer
 EOF
 }
+
+
 
 function gp.starterStyle {
 # style.styl Content
@@ -206,6 +208,8 @@ debug() // for debugging elf
 
 EOF
 }
+
+
 
 function gp.googleAnalytics {
 cat <<EOF >> src/_js/analytics.js
