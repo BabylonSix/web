@@ -1,36 +1,184 @@
-function gp.starterFiles {
-# create empty starter files
-f src/_jade/index.jade
-f src/_js/script.js
-f src/_stylus/style.styl
-}
-
 function gp.starterContent {
 # index.jade Content
 cat <<EOF >> src/_jade/index.jade
-doctype html
-html(lang="en-US")
-	head
-		title
-		meta(charset="utf-8")
-		meta(name="viewport" content="user-scalable=0 initial-scale=1.0")
-		link(rel="stylesheet" href="_css/style.css")
+//- Template Path + siteConfig
+extends _layout/layout
 
-	body
-		.site-header-wrapper
-			header
-				.logo
-				nav
-				.call-us
+append config
+	//- -var page = { title: "", description: "", keywords: "" }
 
-		.site-content-wrapper
-			.content
+block site-header
 
-		.site-footer-wrapper
-			footer
+append site-body
 
-		// Site Scripts
-		script(src="_js/script.js")
+append site-footer
+EOF
+
+
+
+cat <<EOF src/_jade/_settings/config.jade
+//- Set to true to load script to page.
+- var jQuery = false
+- var jQueryMobile = false
+- var jQueryUI = false
+- var modernizr = false
+- var threeJS = false
+- var webfonts = false
+
+
+//- Global Site Config
+block site
+	//- For Google Analytics: change UA-XXXXX-X to be your site's ID. (only loaded if actual site ID is included)
+	-var site = {name: "siteName", googleID: "UA-XXXXX-X"}
+
+
+
+//- Per Page Config
+//- description and keywords meta tags only added if non-default content is provided.
+block pageInfo
+	-var page = {title: "pageTitle", description: "Page Description Info… (limit to 200 characters)", keywords: "Page Keywords… (limit to 1000 characters)"}
+EOF
+
+
+
+cat <<EOF src/_jade/_layout/layout.jade
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en-US"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en-US"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en-US"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en-US"><!--<![endif]-->
+
+
+//- 
+	defaults (stored in variables) that can be
+	changed on a page by page basis (using append config)
+block config
+	include ../_settings/config
+
+
+//- default site head
+include htmlHead
+
+
+//- default site body
+include htmlBody
+
+
+</html>
+EOF
+
+
+
+cat <<EOF src/_jade/_layout/htmlHead.jade
+meta(charset="utf-8")
+meta(http-equiv="X-UA-Compatible" content="IE=edge")
+//- #{variable} => Google 'jade interpolation'
+title: block title
+	| #{site.name} | #{page.title}
+
+meta(name="viewport" content="width=device-width, initial-scale=1")
+
+if (page.description && page.description != "Page Description Info… (limit to 200 characters)")
+	meta(name="description" content="#{page.description}")
+if (page.keywords && page.keywords != "Page Keywords… (limit to 1000 characters)")
+	meta(name="keywords" content="#{page.keywords}")
+block meta
+
+//- Place favicon.ico and apple-touch-icon.png in the root directory
+
+link(rel="stylesheet" href="_css/style.css")
+block styles
+
+if (modernizr)
+	script(src="js/vendor/modernizr-2.6.2.min.js")
+
+if (webfonts)
+	script(src="//ajax.googleapis.com/ajax/libs/webfont/1.5.6/webfont.js")
+EOF
+
+
+
+cat <<EOF src/_jade/_layout/htmlBody.jade
+<!--[if lt IE 7]>
+p.browsehappy You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+<![endif]-->
+
+
+//- .wrap- provides full viewport background
+//- #site- is to provide the section boundary size-wise
+//- #site- can be used with media-queries for responsive resizing of boundary
+.wrap-header: header#site-header
+	include siteHeader
+
+
+.wrap-body: main#site-body
+	include siteBody
+
+
+.wrap-footer: footer#site-footer
+	include siteFooter
+
+
+//- Site Scripts
+if (jQuery || jQueryMobile || jQueryUI)
+	script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+	script.
+		window.jQuery || document.write('<script src="js/vendor/jquery-2.1.1.min.js"><\/script>')
+
+
+if (jQueryMobile)
+	script(src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js")
+
+
+if (jQueryUI)
+	script(src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js")
+
+
+if (threeJS)
+	script(src="//ajax.googleapis.com/ajax/libs/threejs/r69/three.min.js")
+
+
+//- Google Analytics: change UA-XXXXX-X to be your site's ID.
+//- This will load, but only if you include an actual ID
+if (site.googleID && site.googleID != 'UA-XXXXX-X')
+	script.
+		(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+		function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+		e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+		e.src='//www.google-analytics.com/analytics.js';
+		r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+		ga('create','#{site.googleID}');ga('send','pageview');
+
+
+//- Add scripts here
+block scripts
+
+
+script(src="_js/script.js")
+EOF
+
+
+
+cat <<EOF src/_jade/_layout/siteHeader.jade
+block site-header
+	//- default site header
+	.logo
+	nav
+	.call-to-action
+EOF
+
+
+
+cat <<EOF src/_jade/_layout/siteBody.jade
+block site-body
+	//- default site body
+EOF
+
+
+
+cat <<EOF src/_jade/_layout/siteFooter.jade
+block site-footer
+	//- default site footer
 EOF
 }
 
