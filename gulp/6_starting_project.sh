@@ -26,4 +26,4 @@ ot $1.sublime-project # Open project in sublime
 gulp                  # Run Gulp
 }
 
-alias w.g='web.gulp'
+alias wp='web.gulp'
