@@ -16,3 +16,6 @@
 . ~/bin/dotfiles/web/gulp/4_npm_package_import.sh
 . ~/bin/dotfiles/web/gulp/5_extras.sh
 . ~/bin/dotfiles/web/gulp/6_starting_project.sh
+
+# Simple Project Build
+. ~/bin/dotfiles/web/sp/1_project_structure.sh
