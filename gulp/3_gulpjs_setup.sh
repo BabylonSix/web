@@ -39,9 +39,6 @@ gp          = do require 'gulp-load-plugins' # Loads all gulp plugins
 browserSync = require 'browser-sync'         # Reloads and Syncs Browsers
 marked      = require 'marked'               # For :markdown filter in jade
 axis        = require 'axis'                 # stylus plugin for awesomeness
-jeet        = require 'jeet'                 # stylus plugin for grids (> IE 7) 
-elf         = require 'elf-grid'             # stylus plugin for grids (> IE 9)
-dragon      = require 'dragon-grid'          # elf => but with one mixin call
 rupture     = require 'rupture'              # stylus plugin for media-queries
 typo        = require 'typographic'          # stylus plugin for typography
 
@@ -129,7 +126,7 @@ gulp.task 'stylus2css', ->
 		# prevents gulp crashes caused by jade/stylus/coffeescript conversions
 		.pipe gp.plumber()
 		# converts Stylus => CSS, shows any errors in terminal
-		.pipe gp.stylus {errors: true, use: [axis(), jeet(), elf(), dragon(), rupture(),typo()]}
+		.pipe gp.stylus {errors: true, use: [axis(), rupture(),typo()]}
 		# adds browser prefixes
 		.pipe gp.autoprefixer 'last 12 version', '> 1%', 'ie 8', 'ie 7'
 		# combine the media queries
@@ -167,7 +164,7 @@ gulp.task 'js', ['coffee'], ->
 		# combines all javascript files into one 'script.js' file
 		.pipe gp.concat 'script.js'
 		# makes human readable JavaScript
-		.pipe gp.beautify()
+		# ???? Add JS Beautify Step
 		.pipe gulp.dest paths.devJs
 		.pipe browserSync.reload {stream:true, once: true}
 
@@ -180,11 +177,7 @@ gulp.task 'js', ['coffee'], ->
 ## SVG Pipeline
 gulp.task 'svg', ->
 	gulp.src paths.srcSvg
-		.pipe gp.svgSprites {
-			mode: "symbols",
-			svg: {symbols: "./_img/icons.svg"},
-			preview: {symbols: "./icons.html"}
-		}
+		# ???? Add SVG Processing Step
 		.pipe gulp.dest paths.devHtml
 		.pipe browserSync.reload {stream:true}
 
@@ -269,7 +262,7 @@ gulp.task 'pro.jade2html', ->
 gulp.task 'pro.stylus2css', ->
 	gulp.src paths.srcStylus
 		.pipe gp.plumber()
-		.pipe gp.stylus {errors: true, use: [axis(), jeet(), elf(), dragon(), rupture(),typo()]}
+		.pipe gp.stylus {errors: true, use: [axis(), rupture(),typo()]}
 		.pipe gp.combineMediaQueries() # combine the media queries
 		.pipe gp.autoprefixer 'last 12 version', '> 1%', 'ie 8', 'ie 7'
 		# .pipe gp.gzip {append: true}
@@ -330,11 +323,7 @@ gulp.task 'pro.svg', ->
 			{moveGroupAttrsToElems: true},
 			{sortAttrs: true}
 		])
-		.pipe gp.svgSprites {
-			mode: "symbols",
-			svg: {symbols: "./_img/icons.svg"},
-			preview: {symbols: "./icons.html"}
-		}
+		# ???? Add SVG Processing Step
 		.pipe gp.cleanhtml() # minify svg file
 		.pipe gulp.dest paths.proHtml
 		.pipe browserSync.reload {stream:true}

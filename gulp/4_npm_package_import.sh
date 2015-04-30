@@ -1,3 +1,3 @@
 function gp.InstallPlugins {
-npm install --save-dev axis browser-sync coffee-script dragon-grid elf-grid gulp gulp-autoprefixer gulp-beautify gulp-cleanhtml gulp-coffee gulp-combine-media-queries gulp-concat gulp-cssbeautify gulp-gzip gulp-imagemin gulp-jade gulp-load-plugins gulp-plumber gulp-prettify gulp-sitemap gulp-stylus gulp-svg-sprites gulp-uglify jeet marked rupture typographic
+npm install --save-dev axis browser-sync gulp gulp-autoprefixer js-beautify gulp-cleanhtml gulp-combine-media-queries gulp-imagemin gulp-sitemap gulp-plumber gulp-jade gulp-stylus gulp-concat marked rupture typographic gulp-cssbeautify coffee-script gulp-coffee gulp-gzip gulp-load-plugins gulp-prettify gulp-uglify gulp-clean-sketch svg-sprite
 }
