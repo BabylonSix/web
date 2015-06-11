@@ -18,12 +18,12 @@ EOF
 # config.jade content
 cat <<EOF >> src/_jade/_settings/config.jade
 //- Set to true to load script to page.
-- var jQuery = false
+- var jQuery       = false
 - var jQueryMobile = false
-- var jQueryUI = false
-- var modernizr = false
-- var threeJS = false
-- var webfonts = false
+- var jQueryUI     = false
+- var modernizr    = false
+- var threeJS      = false
+- var webfonts     = false
 
 
 //- Global Site Config

@@ -18,4 +18,5 @@
 . ~/bin/dotfiles/web/gulp/6_starting_project.sh
 
 # Simple Project Build
+. ~/bin/dotfiles/web/sp/0_project_init.sh
 . ~/bin/dotfiles/web/sp/1_project_structure.sh
