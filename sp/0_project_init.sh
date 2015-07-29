@@ -1,6 +1,6 @@
-function pi {
+function pi() {
 # Create Project Folder
-take ./$1
+md ./$1
 
 # Create Directory Structure
 d build
