@@ -4,11 +4,9 @@ md ./$1
 
 # Create Directory Structure
 d build
-d src
 d src/jade
 d src/stylus
 d src/scripts
-d src/assets
 d src/assets/img
 d src/assets/svg
 
@@ -180,7 +178,7 @@ gulp.task('js', function() {
 
 
 // Browser Sync
-gulp.task( 'serve', ['jade', 'stylus', 'js'], function() {
+gulp.task( 'default', ['jade', 'stylus', 'js'], function() {
 
 	browserSync.init({
 		server: 'build/'
@@ -216,6 +214,6 @@ ot .
 
 
 # Start Serving Project
-gulp serve
+gulp
 
 }
