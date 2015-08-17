@@ -6,7 +6,7 @@ md ./$1
 d build
 d src/jade
 d src/stylus
-d src/scripts
+d src/js
 d src/assets/img
 d src/assets/svg
 
@@ -24,6 +24,9 @@ doctype html
 html(lang='en')
 	head
 		meta(charset='utf-8')
+		meta(meta(http-equiv='X-UA-Compatible' content='IE=edge'))
+		meta(name='viewport' content='width=device-width, initial-scale=1')
+		meta(name='description' content='This is the information that appears in the google description for your page')
 		title
 		link(rel='stylesheet', href='css/style.css')
 		script(src='js/app.js')
@@ -38,17 +41,20 @@ EOF
 cat <<EOF >> ./src/stylus/style.styl
 @import 'typographic'
 
-html
-	background: hsl(200, 7%, 9%)
+$sky-blue = hsl(194, 28%, 70%)
+$soft-black = hsl(200, 7%, 9%)
 
-h1
-	color: hsl(194, 28%, 70%)
+html
+	background: $soft-black
+
+h1, h2, h3, h4, h5, h6, p
+	color: $sky-blue
 EOF
 
 
 
 
-cat <<EOF >> ./src/scripts/app.js
+cat <<EOF >> ./src/js/app.js
 EOF
 
 
@@ -115,7 +121,7 @@ var plumber      = require('gulp-plumber');
 var src = {
 	jade:   './src/jade/*.jade',
 	stylus: './src/stylus/*.styl',
-	js: './src/scripts/*.js'
+	js: './src/js/*.js'
 };
 
 
@@ -137,7 +143,7 @@ var build = {
 gulp.task('jade', function() {
 	stream = gulp.src(src.jade)
 		.pipe(plumber())
-		.pipe(jade())
+		.pipe(jade({pretty: true}))
 		.pipe(gulp.dest(build.html))
 		.pipe(reload({stream: true}));
 
