@@ -101,6 +101,7 @@ var axis         = require('axis');
 var rupture      = require('rupture');     // media queries
 var typo         = require('typographic'); // typography
 var lost         = require('lost');        // grids
+var combineMQ    = require('gulp-combine-mq');
 
 // Post CSS
 var autoprefixer = require('gulp-autoprefixer');
@@ -163,6 +164,9 @@ gulp.task('stylus', function() {
 		.pipe(postcss([
       lost()
     ]))
+    .pipe(combineMQ({
+    	beautify: true
+		}))
     .pipe(autoprefixer())
     .pipe(sourcemaps.write('./sourcemaps/'))
 		.pipe(gulp.dest(build.css))
@@ -202,7 +206,7 @@ EOF
 
 # Initiate NPM
 npm init
-npmd gulp browser-sync gulp-jade gulp-stylus axis rupture typographic lost gulp-postcss gulp-sourcemaps gulp-autoprefixer gulp-plumber
+npmd gulp browser-sync gulp-jade gulp-stylus axis rupture typographic lost gulp-postcss gulp-sourcemaps gulp-autoprefixer gulp-plumber gulp-combine-mq
 
 
 
