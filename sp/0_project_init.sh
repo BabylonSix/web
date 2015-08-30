@@ -42,18 +42,19 @@ cat <<EOF >> ./src/stylus/style.styl
 @charset "utf-8";
 @import 'typographic'
 
-$blue = hsl(194, 28%, 70%)
-$black = hsl(200, 7%, 9%)
+blue = hsl(194, 28%, 70%)
+black = hsl(200, 7%, 9%)
 
 html
 	box-sizing: border-box
-	background: $black
+	background: black
 
 *, *:before, *:after
 	box-sizing: inherit
 
 h1, h2, h3, h4, h5, h6, p
-	color: $blue
+	color: blue
+
 EOF
 
 
@@ -71,6 +72,7 @@ cat <<EOF >> ./.gitignore
 */DS_Store
 node_modules/
 build/
+production/
 EOF
 
 
@@ -99,6 +101,8 @@ var reload       = browserSync.reload;
 
 // Jade
 var jade         = require('gulp-jade');
+var findAffected = require('gulp-jade-find-affected');
+var minifyHTML   = require('gulp-minify-html');
 
 // Stylus
 var stylus       = require('gulp-stylus');
@@ -106,15 +110,19 @@ var axis         = require('axis');
 var rupture      = require('rupture');     // media queries
 var typo         = require('typographic'); // typography
 var lost         = require('lost');        // grids
-var combineMQ    = require('gulp-combine-mq');
+var minifyCSS    = require('gulp-csso');
 
 // Post CSS
 var autoprefixer = require('gulp-autoprefixer');
 var postcss      = require('gulp-postcss');
 var sourcemaps   = require('gulp-sourcemaps');
+var combineMQ    = require('gulp-combine-mq');
 
 // Catch Errors
 var plumber      = require('gulp-plumber');
+
+// Sitemaps
+var sitemap      = require('gulp-sitemap');
 
 
 
@@ -125,30 +133,38 @@ var plumber      = require('gulp-plumber');
 
 // src files
 var src = {
-	jade:   './src/jade/*.jade',
-	stylus: './src/stylus/*.styl',
-	js: './src/js/*.js'
+	jade:      ['./src/jade/*.jade', '!./src/jade/layout/**/*.jade'],
+	jadeAll:    './src/jade/**/*.jade',
+	stylus:     './src/stylus/style.styl',
+	stylusAll:  './src/stylus/**/*.styl',
+	js:         './src/js/*.js'
 };
 
 
-// dest directories
+// build directories
 var build = {
-	html: 'build/',
-	css:  'build/css/',
-	js:   'build/js/'
+	html: './build/',
+	css:  './build/css/',
+	js:   './build/js/'
 };
+
+// sitemap site url
+var siteURL = {
+	siteUrl: 'http://www.plumbingflow.com'
+}
 
 
 
 
 //
-// Gulp Tasks
+// Gulp Build Tasks
 //
 
 // Jade >> HTML
 gulp.task('jade', function() {
 	stream = gulp.src(src.jade)
 		.pipe(plumber())
+		.pipe(findAffected())
 		.pipe(jade({pretty: true}))
 		.pipe(gulp.dest(build.html))
 		.pipe(reload({stream: true}));
@@ -170,8 +186,8 @@ gulp.task('stylus', function() {
       lost()
     ]))
     .pipe(combineMQ({
-    	beautify: true
-		}))
+        beautify: true
+    }))
     .pipe(autoprefixer())
     .pipe(sourcemaps.write('./sourcemaps/'))
 		.pipe(gulp.dest(build.css))
@@ -199,11 +215,86 @@ gulp.task( 'default', ['jade', 'stylus', 'js'], function() {
 		server: 'build/'
 	});
 
-	gulp.watch( src.jade,   ['jade'] );
-	gulp.watch( src.stylus, ['stylus'] );
-	gulp.watch( src.js,     ['js'] );
+	gulp.watch( src.jadeAll,   [ 'jade'   ]);
+	gulp.watch( src.stylusAll, [ 'stylus' ]);
+	gulp.watch( src.js,        [ 'js'     ]);
 
 });
+
+
+
+
+//
+// Gulp Production Tasks
+//
+
+// production directories
+var pro = {
+	html: 'production/',
+	css:  'production/css/',
+	js:   'production/js/'
+};
+
+
+// Jade >> HTML
+gulp.task('pro_jade', function() {
+	stream = gulp.src(src.jade)
+		.pipe(plumber())
+		.pipe(jade())
+		.pipe(minifyHTML({
+			conditionals: true
+		}))
+		.pipe(gulp.dest(pro.html))
+		.pipe(reload({stream: true}));
+
+	return stream;
+});
+
+
+// Stylus >> CSS
+gulp.task('pro_stylus', function() {
+	stream = gulp.src(src.stylus)
+		.pipe(plumber())
+		.pipe(sourcemaps.init())
+		.pipe(stylus({
+			errors: true,
+			use: [axis(), rupture(),typo()]
+		}))
+		.pipe(postcss([
+      lost()
+    ]))
+    .pipe(combineMQ())
+    .pipe(autoprefixer())
+    .pipe(minifyCSS({
+    	structureMinimization: true
+  	}))
+		.pipe(gulp.dest(pro.css))
+		.pipe(reload({stream: true}));
+
+	return stream;
+});
+
+// Scripts >> JS
+gulp.task('pro_js', function() {
+	stream = gulp.src(src.js)
+		.pipe(plumber())
+		.pipe(gulp.dest(pro.js))
+		.pipe(reload({stream: true}));
+
+	return stream;
+})
+
+
+// Sitemap
+gulp.task('sitemap', function () {
+  gulp.src('./production/**/*.html')
+    .pipe(sitemap(siteURL))
+    .pipe(gulp.dest('./production'));
+});
+
+
+// Production Build Task
+gulp.task( 'pro', ['pro_jade', 'pro_stylus', 'pro_js', 'sitemap'], function() {});
 
 EOF
 
@@ -211,7 +302,7 @@ EOF
 
 # Initiate NPM
 npm init
-npmd gulp browser-sync gulp-jade gulp-stylus axis rupture typographic lost gulp-postcss gulp-sourcemaps gulp-autoprefixer gulp-plumber gulp-combine-mq
+npmd gulp axis browser-sync gulp-autoprefixer gulp-csscss gulp-csso gulp-jade gulp-jade-find-affected gulp-minify-html gulp-plumber gulp-postcss gulp-sitemap gulp-sourcemaps gulp-stylus lost rupture typographic gulp-combine-mq
 
 
 
