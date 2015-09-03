@@ -118,12 +118,20 @@ var postcss      = require('gulp-postcss');
 var sourcemaps   = require('gulp-sourcemaps');
 var combineMQ    = require('gulp-combine-mq');
 
+// Image Compression
+var svgo         = require('imagemin-svgo');
+
 // Catch Errors
 var plumber      = require('gulp-plumber');
 
 // Sitemaps
 var sitemap      = require('gulp-sitemap');
 
+// Compression
+var zopfli       = require('gulp-zopfli'); // gzips files
+// add the following line to your .htaccess so that
+// apache could serve up pre-compressed content:
+// Options FollowSymLinks MultiViews
 
 
 
@@ -133,11 +141,15 @@ var sitemap      = require('gulp-sitemap');
 
 // src files
 var src = {
+	//code assets
 	jade:      ['./src/jade/*.jade', '!./src/jade/layout/**/*.jade'],
 	jadeAll:    './src/jade/**/*.jade',
 	stylus:     './src/stylus/style.styl',
 	stylusAll:  './src/stylus/**/*.styl',
-	js:         './src/js/*.js'
+	js:         './src/js/*.js',
+
+	// image assets
+	svg:        './src/assets/svg/**/*.svg'
 };
 
 
@@ -157,7 +169,7 @@ var siteURL = {
 
 
 //
-// Gulp Build Tasks
+// Gulp Tasks
 //
 
 // Jade >> HTML
@@ -183,13 +195,13 @@ gulp.task('stylus', function() {
 			use: [axis(), rupture(),typo()]
 		}))
 		.pipe(postcss([
-      lost()
-    ]))
-    .pipe(combineMQ({
-        beautify: true
-    }))
-    .pipe(autoprefixer())
-    .pipe(sourcemaps.write('./sourcemaps/'))
+	lost()
+	]))
+	.pipe(combineMQ({
+	beautify: true
+	}))
+	.pipe(autoprefixer())
+	.pipe(sourcemaps.write('./sourcemaps/'))
 		.pipe(gulp.dest(build.css))
 		.pipe(reload({stream: true}));
 
@@ -205,7 +217,7 @@ gulp.task('js', function() {
 		.pipe(reload({stream: true}));
 
 	return stream;
-})
+});
 
 
 // Browser Sync
@@ -225,14 +237,15 @@ gulp.task( 'default', ['jade', 'stylus', 'js'], function() {
 
 
 //
-// Gulp Production Tasks
+// Production Gulp Tasks
 //
 
 // production directories
 var pro = {
 	html: 'production/',
 	css:  'production/css/',
-	js:   'production/js/'
+	js:   'production/js/',
+	img:  'production/img/'
 };
 
 
@@ -244,8 +257,8 @@ gulp.task('pro_jade', function() {
 		.pipe(minifyHTML({
 			conditionals: true
 		}))
-		.pipe(gulp.dest(pro.html))
-		.pipe(reload({stream: true}));
+		.pipe(zopfli())
+		.pipe(gulp.dest(pro.html));
 
 	return stream;
 });
@@ -261,25 +274,37 @@ gulp.task('pro_stylus', function() {
 			use: [axis(), rupture(),typo()]
 		}))
 		.pipe(postcss([
-      lost()
-    ]))
-    .pipe(combineMQ())
-    .pipe(autoprefixer())
-    .pipe(minifyCSS({
-    	structureMinimization: true
-  	}))
-		.pipe(gulp.dest(pro.css))
-		.pipe(reload({stream: true}));
+	lost()
+	]))
+	.pipe(combineMQ())
+	.pipe(autoprefixer())
+	.pipe(minifyCSS({ structureMinimization: true })) 
+	.pipe(zopfli())
+	.pipe(gulp.dest(pro.css));
 
 	return stream;
 });
+
 
 // Scripts >> JS
 gulp.task('pro_js', function() {
 	stream = gulp.src(src.js)
 		.pipe(plumber())
-		.pipe(gulp.dest(pro.js))
-		.pipe(reload({stream: true}));
+		.pipe(zopfli())
+		.pipe(gulp.dest(pro.js));
+
+	return stream;
+})
+
+
+
+// SVG Optimization
+gulp.task('pro_svg', function() {
+	stream = gulp.src(src.svg)	
+		.pipe(plumber())
+		.pipe(svgo()())
+		.pipe(zopfli({ numiterations: 15 }))
+		.pipe(gulp.dest(pro.img))
 
 	return stream;
 })
@@ -287,14 +312,14 @@ gulp.task('pro_js', function() {
 
 // Sitemap
 gulp.task('sitemap', function () {
-  gulp.src('./production/**/*.html')
-    .pipe(sitemap(siteURL))
-    .pipe(gulp.dest('./production'));
+	gulp.src('./production/**/*.html')
+	.pipe(sitemap(siteURL))
+	.pipe(gulp.dest(pro.html));
 });
 
 
 // Production Build Task
-gulp.task( 'pro', ['pro_jade', 'pro_stylus', 'pro_js', 'sitemap'], function() {});
+gulp.task( 'pro', ['pro_jade', 'pro_stylus', 'pro_js', 'pro_svg', 'sitemap'], function() {});
 
 EOF
 
@@ -302,7 +327,7 @@ EOF
 
 # Initiate NPM
 npm init
-npmd gulp axis browser-sync gulp-autoprefixer gulp-csscss gulp-csso gulp-jade gulp-jade-find-affected gulp-minify-html gulp-plumber gulp-postcss gulp-sitemap gulp-sourcemaps gulp-stylus lost rupture typographic gulp-combine-mq
+npmd axis browser-sync gulp gulp-autoprefixer gulp-combine-mq gulp-csscss gulp-csso gulp-jade gulp-jade-find-affected gulp-minify-html gulp-plumber gulp-postcss gulp-sitemap gulp-sourcemaps gulp-stylus gulp-zopfli imagemin-svgo lost rupture typographic 
 
 
 
