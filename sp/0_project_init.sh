@@ -73,6 +73,7 @@ cat <<EOF >> ./.gitignore
 node_modules/
 build/
 production/
+secrets.json
 EOF
 
 
@@ -95,14 +96,13 @@ cat <<EOF >> ./gulpfile.js
 // Load Gulp
 var gulp         = require('gulp');
 
-// Browser Sync
-var browserSync  = require('browser-sync').create();
-var reload       = browserSync.reload;
-
 // Jade
 var jade         = require('gulp-jade');
 var findAffected = require('gulp-jade-find-affected');
 var minifyHTML   = require('gulp-minify-html');
+
+// Sitemaps
+var sitemap      = require('gulp-sitemap');
 
 // Stylus
 var stylus       = require('gulp-stylus');
@@ -121,17 +121,23 @@ var combineMQ    = require('gulp-combine-mq');
 // Image Compression
 var svgo         = require('imagemin-svgo');
 
-// Catch Errors
-var plumber      = require('gulp-plumber');
+// Browser Sync
+var browserSync  = require('browser-sync').create();
+var reload       = browserSync.reload;
 
-// Sitemaps
-var sitemap      = require('gulp-sitemap');
+/// Utilities
+var plumber      = require('gulp-plumber'); // Catch Errors
+var runSequence  = require('run-sequence');
 
 // Compression
 var zopfli       = require('gulp-zopfli'); // gzips files
 // add the following line to your .htaccess so that
 // apache could serve up pre-compressed content:
 // Options FollowSymLinks MultiViews
+
+// Deployment
+var ftp          = require('vinyl-ftp');
+var secrets      = require('./secrets.json'); // password
 
 
 
@@ -278,7 +284,7 @@ gulp.task('pro_stylus', function() {
 	]))
 	.pipe(combineMQ())
 	.pipe(autoprefixer())
-	.pipe(minifyCSS({ structureMinimization: true })) 
+	.pipe(minifyCSS({ structureMinimization: true }))
 	.pipe(zopfli())
 	.pipe(gulp.dest(pro.css));
 
@@ -300,7 +306,7 @@ gulp.task('pro_js', function() {
 
 // SVG Optimization
 gulp.task('pro_svg', function() {
-	stream = gulp.src(src.svg)	
+	stream = gulp.src(src.svg)
 		.pipe(plumber())
 		.pipe(svgo()())
 		.pipe(zopfli({ numiterations: 15 }))
@@ -321,13 +327,71 @@ gulp.task('sitemap', function () {
 // Production Build Task
 gulp.task( 'pro', ['pro_jade', 'pro_stylus', 'pro_js', 'pro_svg', 'sitemap'], function() {});
 
+
+
+
+// FTP Deploy Task
+gulp.task( 'deploy', function() {
+
+var conn = ftp.create( {
+	host:     secrets.servers.production.serverhost,
+	user:     secrets.servers.production.username,
+	password: secrets.servers.production.password,
+	parallel: 10
+} );
+
+var globs = [
+	'production/js/**',
+	'production/css/**',
+	'production/img/**',
+	'production/**/*.html.gz'
+];
+
+return gulp.src( globs, { base: './production/', buffer: false } )
+	.pipe( conn.newer( secrets.servers.production.remotepath) )   // only upload newer files
+	.pipe( conn.dest( secrets.servers.production.remotepath ) );
+
+} );
+
+
+// Production Build and Deploy
+gulp.task( 'pd', function() {
+	runSequence( 'pro', 'deploy' )
+})
+
+EOF
+
+
+
+# Create Password + Server Info File
+# serverport 22 is for SFTP
+# serverhost defaulting to Media Temple
+# remotepath defaulting to Media Temple
+f secrets.json
+cat <<EOF >> ./secrets.json
+{
+	"servers": {
+		"production": {
+
+			"username":    "your-username",
+			"password":    "your-password",
+
+			"serverport":  22,
+
+			"serverhost":  "s209445.gridserver.com",
+
+			"remotepath":  "./domains/YourDomainName.com/html"
+		}
+	}
+}
+
 EOF
 
 
 
 # Initiate NPM
 npm init
-npmd axis browser-sync gulp gulp-autoprefixer gulp-combine-mq gulp-csscss gulp-csso gulp-jade gulp-jade-find-affected gulp-minify-html gulp-plumber gulp-postcss gulp-sitemap gulp-sourcemaps gulp-stylus gulp-zopfli imagemin-svgo lost rupture typographic 
+npmd axis browser-sync gulp gulp-autoprefixer gulp-combine-mq gulp-csscss gulp-csso gulp-gzip gulp-jade gulp-jade-find-affected gulp-minify-html gulp-plumber gulp-postcss gulp-sitemap gulp-sourcemaps gulp-stylus gulp-zopfli imagemin-svgo lost run-sequence rupture typographic vinyl-ftp
 
 
 
