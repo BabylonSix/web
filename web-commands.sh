@@ -44,27 +44,28 @@ fi
 }
 
 
+
 # Check Can I Use site
 alias ciu='caniuse'
+
 
 
 # Gulp
 alias gp='gulp'
 
 
+
 # CodeKit
 alias ck='open -a CodeKit'
+
 
 
 # Browser Sync
 alias bs='browser-sync'
 
 
+
 # Run simple HTTP server
-alias ss='python -m SimpleHTTPServer' # host current directory + port number
-alias p3='python3'
-
-
 function server() {
 	local ports="${1:-8000}"
 	open "http://localhost:${port}/"
