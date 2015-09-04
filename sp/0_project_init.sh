@@ -1,4 +1,9 @@
 function pi() {
+
+if [[ -z $1 ]]; then # check if variable is empty
+	echo 'error: add a project name' # if variable is empty
+else
+# if variable is not empty => create the project
 # Create Project Folder
 md ./$1
 
@@ -410,5 +415,7 @@ ot .
 
 # Start Serving Project
 gulp
+
+fi
 
 }
