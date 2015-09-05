@@ -39,7 +39,7 @@ if [[ -d node_modules ]] then # If node_modules folder is present
 	gulp
 
 else # If node_modules folder is NOT present
-	echo "error: this is not a web project!"
+	echo "error: this is not a web project! \nrun pi command if you want to create a new web project. \nexisting projects have a node_modules folder."
 fi
 }
 
