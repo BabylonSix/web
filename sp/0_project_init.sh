@@ -9,6 +9,13 @@ md ./$1
 
 # Create Directory Structure
 d build
+d build/css
+d build/js
+d build/img
+d production
+d production/css
+d production/js
+d production/img
 d src/jade
 d src/stylus
 d src/js
