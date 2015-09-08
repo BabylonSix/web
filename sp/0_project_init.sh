@@ -129,6 +129,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var postcss      = require('gulp-postcss');
 var sourcemaps   = require('gulp-sourcemaps');
 var combineMQ    = require('gulp-combine-mq');
+var rucksack     = require('gulp-rucksack');
 
 // Image Compression
 var svgo         = require('imagemin-svgo');
@@ -150,6 +151,7 @@ var zopfli       = require('gulp-zopfli'); // gzips files
 // Deployment
 var ftp          = require('vinyl-ftp');
 var secrets      = require('./secrets.json'); // password
+
 
 
 
@@ -175,7 +177,8 @@ var src = {
 var build = {
 	html: './build/',
 	css:  './build/css/',
-	js:   './build/js/'
+	js:   './build/js/',
+	img:  './build/img/'
 };
 
 // sitemap site url
@@ -213,13 +216,14 @@ gulp.task('stylus', function() {
 			use: [axis(), rupture(),typo()]
 		}))
 		.pipe(postcss([
-	lost()
-	]))
-	.pipe(combineMQ({
-	beautify: true
-	}))
-	.pipe(autoprefixer())
-	.pipe(sourcemaps.write('./sourcemaps/'))
+			lost()
+		]))
+		.pipe(rucksack())
+		.pipe(combineMQ({
+			beautify: true
+		}))
+		.pipe(autoprefixer())
+		.pipe(sourcemaps.write('./sourcemaps/'))
 		.pipe(gulp.dest(build.css))
 		.pipe(reload({stream: true}));
 
@@ -238,8 +242,18 @@ gulp.task('js', function() {
 });
 
 
+// SVG Optimization
+gulp.task('svg', function() {
+	stream = gulp.src(src.svg)	
+		.pipe(plumber())
+		.pipe(gulp.dest(build.img))
+
+	return stream;
+})
+
+
 // Browser Sync
-gulp.task( 'default', ['jade', 'stylus', 'js'], function() {
+gulp.task( 'default', ['jade', 'stylus', 'js', 'svg'], function() {
 
 	browserSync.init({
 		server: 'build/'
@@ -248,6 +262,7 @@ gulp.task( 'default', ['jade', 'stylus', 'js'], function() {
 	gulp.watch( src.jadeAll,   [ 'jade'   ]);
 	gulp.watch( src.stylusAll, [ 'stylus' ]);
 	gulp.watch( src.js,        [ 'js'     ]);
+	gulp.watch( src.svg,       [ 'svg'     ]);
 
 });
 
@@ -296,7 +311,7 @@ gulp.task('pro_stylus', function() {
 	]))
 	.pipe(combineMQ())
 	.pipe(autoprefixer())
-	.pipe(minifyCSS({ structureMinimization: true }))
+	.pipe(minifyCSS({ structureMinimization: true })) 
 	.pipe(zopfli())
 	.pipe(gulp.dest(pro.css));
 
@@ -315,10 +330,9 @@ gulp.task('pro_js', function() {
 })
 
 
-
 // SVG Optimization
 gulp.task('pro_svg', function() {
-	stream = gulp.src(src.svg)
+	stream = gulp.src(src.svg)	
 		.pipe(plumber())
 		.pipe(svgo()())
 		.pipe(zopfli({ numiterations: 15 }))
@@ -352,12 +366,11 @@ var connection = ftp.create( {
 	parallel: 10
 } );
 
+
 var globs = [
-	'production/js/**',
-	'production/css/**',
-	'production/img/**',
-	'production/**/*.html.gz'
+	'production/**' // upload everything in the production folder
 ];
+
 
 return gulp.src( globs, { base: './production/', buffer: false } )
 	.pipe( connection.newer( secrets.servers.production.remotepath) )   // only upload newer files
@@ -370,6 +383,7 @@ return gulp.src( globs, { base: './production/', buffer: false } )
 gulp.task( 'pd', function() {
 	runSequence( 'pro', 'deploy' )
 })
+
 
 EOF
 
@@ -403,7 +417,7 @@ EOF
 
 # Initiate NPM
 npm init
-npmd axis browser-sync gulp gulp-autoprefixer gulp-combine-mq gulp-csscss gulp-csso gulp-gzip gulp-jade gulp-jade-find-affected gulp-minify-html gulp-plumber gulp-postcss gulp-sitemap gulp-sourcemaps gulp-stylus gulp-zopfli imagemin-svgo lost run-sequence rupture typographic vinyl-ftp
+npmd axis browser-sync gulp gulp-autoprefixer gulp-combine-mq gulp-csscss gulp-csso gulp-gzip gulp-jade gulp-jade-find-affected gulp-minify-html gulp-plumber gulp-postcss gulp-sitemap gulp-sourcemaps gulp-stylus gulp-zopfli imagemin-svgo lost run-sequence rupture typographic vinyl-ftp gulp-rucksack
 
 
 

@@ -52,6 +52,7 @@ alias ciu='caniuse'
 
 # Gulp
 alias gp='gulp'
+alias gpd='gulp pd' # production deploy
 
 
 
