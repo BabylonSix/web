@@ -24,7 +24,7 @@ if [[ -d node_modules ]] then # If node_modules folder is present
 	# Move Google Chrome to right side of screen
 	osascript \
 	-e	'tell application "Google Chrome" to activate' \
-	-e	'delay 0.5 -- give application time to open' \
+	-e	'delay 0.6 -- give application time to open' \
 	-e	'tell application "System Events" to tell application process "Google Chrome"' \
 	-e		'try' \
 	-e			'get properties of window 1' \
