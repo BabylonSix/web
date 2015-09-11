@@ -154,7 +154,6 @@ var secrets      = require('./secrets.json'); // password
 
 
 
-
 //
 // Source and Destination Files
 //
@@ -330,6 +329,7 @@ gulp.task('pro_js', function() {
 })
 
 
+
 // SVG Optimization
 gulp.task('pro_svg', function() {
 	stream = gulp.src(src.svg)	
@@ -366,11 +366,9 @@ var connection = ftp.create( {
 	parallel: 10
 } );
 
-
 var globs = [
 	'production/**' // upload everything in the production folder
 ];
-
 
 return gulp.src( globs, { base: './production/', buffer: false } )
 	.pipe( connection.newer( secrets.servers.production.remotepath) )   // only upload newer files
