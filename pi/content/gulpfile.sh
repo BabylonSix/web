@@ -60,14 +60,16 @@ var secrets      = require('./secrets.json'); // password
 // src files
 var src = {
 	//code assets
-	jade:      ['./src/jade/*.jade', '!./src/jade/layout/**/*.jade'],
+	jade:      ['./src/jade/**/*.jade', '!./src/jade/layout/**/*.jade'],
 	jadeAll:    './src/jade/**/*.jade',
 	stylus:     './src/stylus/style.styl',
 	stylusAll:  './src/stylus/**/*.styl',
 	js:         './src/js/*.js',
 
 	// image assets
-	svg:        './src/assets/svg/**/*.svg'
+	svg:        './src/assets/svg/**/*.svg',
+	jpeg:      ['./src/assets/jpg/**/*.jpg', './src/assets/jpg/**/*.jpeg'],
+	png:        './src/assets/png/**/*.png'
 };
 
 
@@ -111,7 +113,7 @@ gulp.task('stylus', function() {
 		.pipe(sourcemaps.init())
 		.pipe(stylus({
 			errors: true,
-			use: [axis(), rupture(),typo()]
+			use: [axis(), rupture(), typo()]
 		}))
 		.pipe(postcss([
 			lost()
@@ -120,7 +122,7 @@ gulp.task('stylus', function() {
 		.pipe(combineMQ({
 			beautify: true
 		}))
-		.pipe(autoprefixer())
+		.pipe(autoprefixer({ browsers: ['last 2 versions', '> 5%'] }))
 		.pipe(sourcemaps.write('./sourcemaps/'))
 		.pipe(gulp.dest(build.css))
 		.pipe(reload({stream: true}));
@@ -140,7 +142,7 @@ gulp.task('js', function() {
 });
 
 
-// SVG Optimization
+// SVG Pipe
 gulp.task('svg', function() {
 	stream = gulp.src(src.svg)	
 		.pipe(plumber())
@@ -149,9 +151,27 @@ gulp.task('svg', function() {
 	return stream;
 })
 
+// JPEG Pipe
+gulp.task('jpeg', function() {
+	stream = gulp.src(src.jpeg)
+		.pipe(plumber())
+		.pipe(gulp.dest(build.img))
+
+	return stream;
+})
+
+// PNG Pipe
+gulp.task('png', function() {
+	stream = gulp.src(src.png)
+		.pipe(plumber())
+		.pipe(gulp.dest(build.img))
+
+	return stream;
+})
+
 
 // Browser Sync
-gulp.task( 'default', ['jade', 'stylus', 'js', 'svg'], function() {
+gulp.task( 'default', ['jade', 'stylus', 'js', 'svg', 'jpeg', 'png'], function() {
 
 	browserSync.init({
 		server: 'build/'
@@ -160,7 +180,9 @@ gulp.task( 'default', ['jade', 'stylus', 'js', 'svg'], function() {
 	gulp.watch( src.jadeAll,   [ 'jade'   ]);
 	gulp.watch( src.stylusAll, [ 'stylus' ]);
 	gulp.watch( src.js,        [ 'js'     ]);
-	gulp.watch( src.svg,       [ 'svg'     ]);
+	gulp.watch( src.svg,       [ 'svg'    ]);
+	gulp.watch( src.jpeg,      [ 'jpeg'   ]);
+	gulp.watch( src.png,       [ 'png'    ]);
 
 });
 
@@ -208,7 +230,7 @@ gulp.task('pro_stylus', function() {
 	lost()
 	]))
 	.pipe(combineMQ())
-	.pipe(autoprefixer())
+	.pipe(autoprefixer({ browsers: ['last 2 versions', '> 5%'] }))
 	.pipe(minifyCSS({ structureMinimization: true })) 
 	.pipe(zopfli())
 	.pipe(gulp.dest(pro.css));
@@ -240,6 +262,23 @@ gulp.task('pro_svg', function() {
 	return stream;
 })
 
+// JPEG Optimization
+gulp.task('pro_jpeg', function() {
+	stream = gulp.src(src.jpeg)
+		.pipe(plumber())
+		.pipe(gulp.dest(pro.img))
+
+	return stream;
+})
+
+// PNG Optimization
+gulp.task('pro_png', function() {
+	stream = gulp.src(src.png)
+		.pipe(plumber())
+		.pipe(gulp.dest(pro.img))
+
+	return stream;
+})
 
 // Sitemap
 gulp.task('sitemap', function () {
@@ -250,7 +289,7 @@ gulp.task('sitemap', function () {
 
 
 // Production Build Task
-gulp.task( 'pro', ['pro_jade', 'pro_stylus', 'pro_js', 'pro_svg', 'sitemap'], function() {});
+gulp.task( 'pro', ['pro_jade', 'pro_stylus', 'pro_js', 'pro_svg', 'pro_jpeg', 'pro_png', 'sitemap'], function() {});
 
 
 
