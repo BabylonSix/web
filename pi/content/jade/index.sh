@@ -10,8 +10,14 @@ html(lang='en')
 		meta(name='description' content='This is the information that appears in the google description for your page')
 		title
 		link(rel='stylesheet', href='css/style.css')
-		script(src='js/app.js')
+		script(src='js/app.js' defer)
 
 	body
-		h1 Success!
+		:marked
+			# Great Success!
+
+		script
+			:coffee-script
+				console.log 'great success!'
+
 EOF
