@@ -5,51 +5,55 @@ cat <<EOF >> ./gulpfile.js
 //
 
 // Load Gulp
-var gulp         = require('gulp');
+const gulp         = require('gulp');
 
 // Jade
-var jade         = require('gulp-jade');
-var findAffected = require('gulp-jade-find-affected');
-var minifyHTML   = require('gulp-minify-html');
+const jade         = require('gulp-jade');
+const findAffected = require('gulp-jade-find-affected');
+const minifyHTML   = require('gulp-minify-html');
 
 // Sitemaps
-var sitemap      = require('gulp-sitemap');
+const sitemap      = require('gulp-sitemap');
 
 // Stylus
-var stylus       = require('gulp-stylus');
-var axis         = require('axis');
-var rupture      = require('rupture');     // media queries
-var typo         = require('typographic'); // typography
-var lost         = require('lost');        // grids
-var minifyCSS    = require('gulp-csso');
+const stylus       = require('gulp-stylus');
+const axis         = require('axis');
+const rupture      = require('rupture');     // media queries
+const typo         = require('typographic'); // typography
+const lost         = require('lost');        // grids
+const minifyCSS    = require('gulp-csso');
 
 // Post CSS
-var autoprefixer = require('gulp-autoprefixer');
-var postcss      = require('gulp-postcss');
-var sourcemaps   = require('gulp-sourcemaps');
-var combineMQ    = require('gulp-combine-mq');
-var rucksack     = require('gulp-rucksack');
+const postcss      = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const rucksack     = require('rucksack-css');
+
+const sourcemaps   = require('gulp-sourcemaps');
+const combineMQ    = require('gulp-combine-mq');
+
+// JS ES6
+const babel        = require('gulp-babel');
 
 // Image Compression
-var svgo         = require('imagemin-svgo');
+const svgo         = require('imagemin-svgo');
 
 // Browser Sync
-var browserSync  = require('browser-sync').create();
-var reload       = browserSync.reload;
+const browserSync  = require('browser-sync').create();
+const reload       = browserSync.reload;
 
 /// Utilities
-var plumber      = require('gulp-plumber'); // Catch Errors
-var runSequence  = require('run-sequence');
+const plumber      = require('gulp-plumber'); // Catch Errors
+const runSequence  = require('run-sequence');
 
 // Compression
-var zopfli       = require('gulp-zopfli'); // gzips files
+const zopfli       = require('gulp-zopfli'); // gzips files
 // add the following line to your .htaccess so that
 // apache could serve up pre-compressed content:
 // Options FollowSymLinks MultiViews
 
 // Deployment
-var ftp          = require('vinyl-ftp');
-var secrets      = require('./secrets.json'); // password
+const ftp          = require('vinyl-ftp');
+const secrets      = require('./secrets.json'); // password
 
 
 
@@ -57,10 +61,11 @@ var secrets      = require('./secrets.json'); // password
 // Source and Destination Files
 //
 
+
 // src files
-var src = {
+const src = {
 	//code assets
-	jade:      ['./src/jade/**/*.jade', '!./src/jade/layout/**/*.jade'],
+	jade:      ['./src/jade/**/*.jade', '!./src/jade/views/**/*.jade'],
 	jadeAll:    './src/jade/**/*.jade',
 	stylus:     './src/stylus/style.styl',
 	stylusAll:  './src/stylus/**/*.styl',
@@ -74,7 +79,7 @@ var src = {
 
 
 // build directories
-var build = {
+const build = {
 	html: './build/',
 	css:  './build/css/',
 	js:   './build/js/',
@@ -82,9 +87,9 @@ var build = {
 };
 
 // sitemap site url
-var siteURL = {
+const siteURL = {
 	siteUrl: 'http://www.plumbingflow.com'
-}
+};
 
 
 
@@ -93,22 +98,21 @@ var siteURL = {
 // Gulp Tasks
 //
 
+
 // Jade >> HTML
-gulp.task('jade', function() {
-	stream = gulp.src(src.jade)
+gulp.task('jade', () => {
+	return gulp.src(src.jade)
 		.pipe(plumber())
 		.pipe(findAffected())
 		.pipe(jade({pretty: true}))
 		.pipe(gulp.dest(build.html))
 		.pipe(reload({stream: true}));
-
-	return stream;
 });
 
 
 // Stylus >> CSS
-gulp.task('stylus', function() {
-	stream = gulp.src(src.stylus)
+gulp.task('stylus', () => {
+	return gulp.src(src.stylus)
 		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(stylus({
@@ -116,62 +120,55 @@ gulp.task('stylus', function() {
 			use: [axis(), rupture(), typo()]
 		}))
 		.pipe(postcss([
-			lost()
+			lost(),
+			rucksack(),
+			autoprefixer({ browsers: ['last 2 versions', '> 5%'] })
 		]))
-		.pipe(rucksack())
 		.pipe(combineMQ({
 			beautify: true
 		}))
-		.pipe(autoprefixer({ browsers: ['last 2 versions', '> 5%'] }))
 		.pipe(sourcemaps.write('./sourcemaps/'))
 		.pipe(gulp.dest(build.css))
 		.pipe(reload({stream: true}));
-
-	return stream;
 });
 
 
 // Scripts >> JS
-gulp.task('js', function() {
-	stream = gulp.src(src.js)
+gulp.task('js', () => {
+	return gulp.src(src.js)
 		.pipe(plumber())
+		.pipe(babel({
+			presets: ['es2015']
+		}))
 		.pipe(gulp.dest(build.js))
 		.pipe(reload({stream: true}));
-
-	return stream;
 });
 
 
 // SVG Pipe
-gulp.task('svg', function() {
-	stream = gulp.src(src.svg)	
+gulp.task('svg', () => {
+	return gulp.src(src.svg)
 		.pipe(plumber())
-		.pipe(gulp.dest(build.img))
-
-	return stream;
-})
+		.pipe(gulp.dest(build.img));
+});
 
 // JPEG Pipe
-gulp.task('jpeg', function() {
-	stream = gulp.src(src.jpeg)
+gulp.task('jpeg', () => {
+	return gulp.src(src.jpeg)
 		.pipe(plumber())
-		.pipe(gulp.dest(build.img))
-
-	return stream;
-})
+		.pipe(gulp.dest(build.img));
+});
 
 // PNG Pipe
-gulp.task('png', function() {
-	stream = gulp.src(src.png)
+gulp.task('png', () => {
+	return gulp.src(src.png)
 		.pipe(plumber())
-		.pipe(gulp.dest(build.img))
-
-	return stream;
-})
+		.pipe(gulp.dest(build.img));
+});
 
 
 // Browser Sync
-gulp.task( 'default', ['jade', 'stylus', 'js', 'svg', 'jpeg', 'png'], function() {
+gulp.task( 'default', ['jade', 'stylus', 'js', 'svg', 'jpeg', 'png'], () => {
 
 	browserSync.init({
 		server: 'build/'
@@ -193,6 +190,7 @@ gulp.task( 'default', ['jade', 'stylus', 'js', 'svg', 'jpeg', 'png'], function()
 // Production Gulp Tasks
 //
 
+
 // production directories
 var pro = {
 	html: 'production/',
@@ -203,8 +201,8 @@ var pro = {
 
 
 // Jade >> HTML
-gulp.task('pro_jade', function() {
-	stream = gulp.src(src.jade)
+gulp.task('pro_jade', () => {
+	return gulp.src(src.jade)
 		.pipe(plumber())
 		.pipe(jade())
 		.pipe(minifyHTML({
@@ -212,14 +210,12 @@ gulp.task('pro_jade', function() {
 		}))
 		.pipe(zopfli())
 		.pipe(gulp.dest(pro.html));
-
-	return stream;
 });
 
 
 // Stylus >> CSS
-gulp.task('pro_stylus', function() {
-	stream = gulp.src(src.stylus)
+gulp.task('pro_stylus', () => {
+	return gulp.src(src.stylus)
 		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(stylus({
@@ -227,58 +223,52 @@ gulp.task('pro_stylus', function() {
 			use: [axis(), rupture(),typo()]
 		}))
 		.pipe(postcss([
-	lost()
-	]))
-	.pipe(combineMQ())
-	.pipe(autoprefixer({ browsers: ['last 2 versions', '> 5%'] }))
-	.pipe(minifyCSS({ structureMinimization: true })) 
-	.pipe(zopfli())
-	.pipe(gulp.dest(pro.css));
-
-	return stream;
+			lost(),
+			rucksack(),
+			autoprefixer({ browsers: ['last 2 versions', '> 5%'] })
+		]))
+		.pipe(combineMQ())
+		.pipe(minifyCSS({ structureMinimization: true }))
+		.pipe(zopfli())
+		.pipe(gulp.dest(pro.css));
 });
 
 
 // Scripts >> JS
-gulp.task('pro_js', function() {
-	stream = gulp.src(src.js)
+gulp.task('pro_js', () => {
+	return gulp.src(src.js)
 		.pipe(plumber())
+		.pipe(babel({
+			presets: ['es2015']
+		}))
 		.pipe(zopfli())
 		.pipe(gulp.dest(pro.js));
-
-	return stream;
-})
+});
 
 
 
 // SVG Optimization
-gulp.task('pro_svg', function() {
-	stream = gulp.src(src.svg)	
+gulp.task('pro_svg', () => {
+	return gulp.src(src.svg)
 		.pipe(plumber())
 		.pipe(svgo()())
 		.pipe(zopfli({ numiterations: 15 }))
-		.pipe(gulp.dest(pro.img))
-
-	return stream;
-})
+		.pipe(gulp.dest(pro.img));
+});
 
 // JPEG Optimization
-gulp.task('pro_jpeg', function() {
-	stream = gulp.src(src.jpeg)
+gulp.task('pro_jpeg', () => {
+	return gulp.src(src.jpeg)
 		.pipe(plumber())
-		.pipe(gulp.dest(pro.img))
-
-	return stream;
-})
+		.pipe(gulp.dest(pro.img));
+});
 
 // PNG Optimization
-gulp.task('pro_png', function() {
-	stream = gulp.src(src.png)
+gulp.task('pro_png', () => {
+	return gulp.src(src.png)
 		.pipe(plumber())
-		.pipe(gulp.dest(pro.img))
-
-	return stream;
-})
+		.pipe(gulp.dest(pro.img));
+});
 
 // Sitemap
 gulp.task('sitemap', function () {
@@ -289,13 +279,13 @@ gulp.task('sitemap', function () {
 
 
 // Production Build Task
-gulp.task( 'pro', ['pro_jade', 'pro_stylus', 'pro_js', 'pro_svg', 'pro_jpeg', 'pro_png', 'sitemap'], function() {});
+gulp.task( 'pro', ['pro_jade', 'pro_stylus', 'pro_js', 'pro_svg', 'pro_jpeg', 'pro_png', 'sitemap'], () => {});
 
 
 
 
 // FTP Deploy Task
-gulp.task( 'deploy', function() {
+gulp.task( 'deploy', () => {
 
 var connection = ftp.create( {
 	host:     secrets.servers.production.serverhost,
@@ -316,8 +306,8 @@ return gulp.src( globs, { base: './production/', buffer: false } )
 
 
 // Production Build and Deploy
-gulp.task( 'pd', function() {
-	runSequence( 'pro', 'deploy' )
-})
+gulp.task( 'pd', () => {
+	runSequence( 'pro', 'deploy' );
+});
 
 EOF

@@ -1,42 +1,101 @@
 
 function op() {
-if [[ -d node_modules ]] then # If node_modules folder is present
 
-	# Open current directory in sublime
+# Is project a node project?
+if [[ -d node_modules ]]; then # If node_modules folder is present
+
+echo start node project
+# Open current directory in atom
+ot .
+
+function atom() {
+# Move atom Text to right side of screen
+osascript <<EOF
+tell application "Atom"
+	activate
+	delay 0.5 -- give application time to open
+end tell
+tell application "System Events" to tell application process "Atom"
+	try
+		get properties of window 1
+		set size of window 1 to {960, 1200}
+		set position of window 1 to {960, 1}
+	end try
+end tell
+EOF
+}
+atom & # immediately invoke atom() as background process
+
+function chrome() {
+# Move Google Chrome to right side of screen
+osascript <<EOF
+tell application "Google Chrome"
+	activate
+	delay 0.6 -- give application time to open
+end tell
+tell application "System Events" to tell application process "Google Chrome"
+	try
+		get properties of window 1
+		set size of window 1 to {960, 1200}
+		set position of window 1 to {1, 1}
+	end try
+end tell
+EOF
+}
+chrome & # immediately invoke chrome() as background process
+
+# Start gulp process
+gulp
+
+
+# is project a middleman project?
+elif [[ -a GemFile ]]; then # If GemFile is present
+
+	echo start ruby project
+	# Open current directory in atom
 	ot .
 
-	function sublime() {
-	# Move Sublime Text to right side of screen
-	osascript \
-	-e	'tell application "Sublime Text" to activate' \
-	-e	'delay 0.5 -- give application time to open' \
-	-e	'tell application "System Events" to tell application process "Sublime Text"' \
-	-e		'try' \
-	-e			'get properties of window 1' \
-	-e			'set size of window 1 to {960, 1200}' \
-	-e			'set position of window 1 to {960, 1}' \
-	-e		'end try' \
-	-e	'end tell' \
-	}
-	sublime & # immediately invoke sublime() as background process
+function atom() {
+# Move atom Text to right side of screen
+osascript <<EOF
+tell application "Atom"
+	activate
+	delay 0.5 -- give application time to open
+end tell
+tell application "System Events" to tell application process "Atom"
+	try
+		get properties of window 1
+		set size of window 1 to {960, 1200}
+		set position of window 1 to {960, 1}
+	end try
+end tell
+EOF
+}
+atom & # immediately invoke atom() as background process
 
-	function chrome() {
-	# Move Google Chrome to right side of screen
-	osascript \
-	-e	'tell application "Google Chrome" to activate' \
-	-e	'delay 0.6 -- give application time to open' \
-	-e	'tell application "System Events" to tell application process "Google Chrome"' \
-	-e		'try' \
-	-e			'get properties of window 1' \
-	-e			'set size of window 1 to {960, 1200}' \
-	-e			'set position of window 1 to {1, 1}' \
-	-e		'end try' \
-	-e	'end tell' \
-	}
-	chrome & # immediately invoke chrome() as background process
+function chrome() {
+# Move Google Chrome to right side of screen
+osascript <<EOF
+tell application "Google Chrome"
+	activate
+	delay 0.6 -- give application time to open
+	set theURL to "http://localhost:4567"
+	open location theURL
+end tell
+tell application "System Events" to tell application process "Google Chrome"
+	try
+		get properties of window 1
+		set size of window 1 to {960, 1200}
+		set position of window 1 to {1, 1}
+	end try
+end tell
+EOF
+}
+chrome & # immediately invoke chrome() as background process
 
- 	# Start gulp process
-	gulp
+# Start middleman server
+bundle exec middleman server
+
 
 else # If node_modules folder is NOT present
 	echo "error: this is not a web project! \nrun pi command if you want to create a new web project. \nexisting projects have a node_modules folder."
