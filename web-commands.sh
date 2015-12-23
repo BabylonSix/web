@@ -51,6 +51,9 @@ gulp
 # is project a middleman project?
 elif [[ -a GemFile ]]; then # If GemFile is present
 
+	# Start middleman server
+	(bundle exec middleman server) &
+
 	echo start ruby project
 	# Open current directory in atom
 	ot .
@@ -77,8 +80,8 @@ function chrome() {
 # Move Google Chrome to right side of screen
 osascript <<EOF
 tell application "Google Chrome"
+	delay 10 -- give application time to open
 	activate
-	delay 0.6 -- give application time to open
 	set theURL to "http://localhost:4567"
 	open location theURL
 end tell
@@ -92,9 +95,6 @@ end tell
 EOF
 }
 chrome & # immediately invoke chrome() as background process
-
-# Start middleman server
-bundle exec middleman server
 
 
 else # If node_modules folder is NOT present
