@@ -48,11 +48,11 @@ chrome & # immediately invoke chrome() as background process
 gulp
 
 
-# is project a middleman project?
+# is project a jekyll project?
 elif [[ -a GemFile ]]; then # If GemFile is present
 
 	# Start middleman server
-	(bundle exec middleman server) &
+	(jekyll serve) &
 
 	echo start ruby project
 	# Open current directory in atom
@@ -143,13 +143,13 @@ function kp() {
 	fi
 
 	# if number of entered arguments is > 0
-	if [[ $# > 0 ]]; then
+	if [[ $# -gt 0 ]]; then
 
 		# for each port in the arguments
 		( # prevent global variables by running everything in a sub-shell
 			# for Port# entered passed by the user,
 			# add the following to pkPorts -i TCP:Port#
-			for pkPort in $@
+			for pkPort in "$@"
 				do
 					lsof -i TCP:$pkPort | grep LISTEN | awk '{print $2}' | xargs kill -9
 				done

@@ -11,4 +11,4 @@ alias dezign4='cd ~/Clients/Dezign4/website; op'
 alias jsw='cd ~/Studies/Development/JavaScript/js-weird; op'
 
 # HypeNova Studio Projects
-alias ant='cd ~/Clients/HyperNova/drantipov-middleman; op'
+alias shemss='cd ~/Clients/HyperNova/shemss; op'
