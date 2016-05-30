@@ -4,8 +4,7 @@
 #
 ##########################################################
 
-# Simple Project Build
-. ~/bin/dotfiles/web/pi/pi.sh
-. ~/bin/dotfiles/web/web-commands.sh
-. ~/bin/dotfiles/web/projects.sh
+# Simple Javascript Project Build
+. ~/bin/dotfiles/web/sj/sjContent.sh
+. ~/bin/dotfiles/web/sj/sjFunctionality.sh
 . ~/bin/dotfiles/web/sj/sj.sh
