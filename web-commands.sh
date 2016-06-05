@@ -1,5 +1,5 @@
 # Run simple HTTP server
-function server() {
+server() {
 	local ports="${1:-8000}"
 	open "http://localhost:${port}/"
 	python SimpleHTTPServer "$port"
@@ -8,7 +8,7 @@ function server() {
 
 
 # kill ports
-function kp() {
+kp() {
 	# if number of entered arguments is 0
 	if [[ $# -eq 0 ]]; then
 		echo 'Error: No parameters entered'

@@ -1,7 +1,7 @@
-function sjContent() {
+sjContent() {
 # sj content wrapper function
 
-function sjContent.index() {
+sjContent.index() {
 # Populate index.jade with starter content
 cat <<EOF >> index.jade
 body
@@ -12,9 +12,9 @@ EOF
 
 
 
-function sjContent.library() {
+sjContent.library() {
 # Populate library.js with starter content
-cat <<EOF >> ./js/library.js
+cat <<EOF >> js/library.js
 function log(...x) {
 	console.log(...x)
 }
@@ -46,6 +46,18 @@ function example ( exName, ...exCode ) {
 
   log(example)
 }
+EOF
+}
+
+
+
+sjContent.gitignore() {
+# create .gitignore file
+# we will ignore all generated files, eg: html, css, etc…
+cat <<EOF >> .gitignore
+.DS_Store
+*.html
+*.css
 EOF
 }
 
