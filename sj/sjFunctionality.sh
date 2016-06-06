@@ -37,71 +37,80 @@ sjOpenProject() {
 # open currecnt directory in text editor
 ot .
 
-sjMoveRight() {
-# move project rightz
+sjStartProject() {
 
 osascript <<EOF
+delay .5
 moveEditor()
+delay .5
 moveBrowser()
+delay .5
+openDevTools()
 
 
 on moveEditor()
+
 	tell application "${EDITOR}"
 		activate
-		repeat until application "${EDITOR}" is running
-			delay .1 -- give application time to open
-		end repeat
 	end tell
 
 	tell application "System Events" to tell application process "${EDITOR}"
-		try
-			get properties of window 1
-			set size of window 1 to {$w1_3, $h2_3}
-			set position of window 1 to {$w2_3, 0}
-		end try
+		get properties of window 1
+		set size of window 1 to {$w1_4, $h2_3}
+		set position of window 1 to {$w3_4, 0}
 	end tell
+
 end moveEditor
 
+
+
 on moveBrowser()
+
 	tell application "Google Chrome"
 		activate
-		repeat until application "Google Chrome" is running
-			delay .1 -- give application time to open
+		repeat until it is running
+			delay .2
 		end repeat
+
+		if it is running then
+			tell application "System Events" to tell application process "Google Chrome"
+				try
+					get properties of window 1
+					set size of window 1 to {$w1_4, $h1_3}
+					set position of window 1 to {$w3_4, $h2_3}
+				end try
+			end tell
+		end if
+	end tell
+
+end moveBrowser
+
+
+
+
+on openDevTools()
+
+	tell application "Google Chrome"
+		activate
 	end tell
 
 	tell application "System Events" to tell application process "Google Chrome"
-		try
-			get properties of window 1
-			set size of window 1 to {$w1_3, $h1_3}
-			set position of window 1 to {$w2_3, $h2_3}
-		end try
-	end tell
-end moveBrowser
-EOF
-}; sjMoveRight &
-
-
-open_devtools() {
-osascript <<EOF
-delay 10
-tell application "System Events" to tell application process "Google Chrome"
-	try
 		keystroke "j" using {option down, command down}
-		delay .9
-		keystroke "r" using {command down}
-	end try
-end tell
+	  delay .8
+	  keystroke "r" using {command down}
+	end tell
 
-tell application "${EDITOR}"
-	activate
-end tell
+	tell application "${EDITOR}"
+		activate
+	end tell
+
+end openDevTools
 EOF
-};
+}; sjStartProject &
 
 
 
 sjrun() {
-(jade -w --pretty *.jade) | (open_devtools) | (browser-sync start --server --files="*.jade,js/*.js")
+(jade -w --pretty *.jade) | (browser-sync start --server --files="*.jade,js/*.js")
 }; sjrun
 } # end sjOpenProject
