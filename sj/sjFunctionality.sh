@@ -40,19 +40,18 @@ ot .
 sjStartProject() {
 
 osascript <<EOF
-delay .5
+# delay .5
 moveEditor()
-delay .5
+delay .3
 moveBrowser()
-delay .5
+delay .3
 openDevTools()
 
 
 on moveEditor()
-
-	tell application "${EDITOR}"
-		activate
-	end tell
+	repeat until application "Atom" is running
+		delay .1
+	end repeat
 
 	tell application "System Events" to tell application process "${EDITOR}"
 		get properties of window 1
