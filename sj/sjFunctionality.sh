@@ -40,17 +40,17 @@ ot .
 sjStartProject() {
 
 osascript <<EOF
-# delay .5
+delay .5
 moveEditor()
-delay .3
+delay .5
 moveBrowser()
-delay .3
+delay .5
 openDevTools()
 
 
 on moveEditor()
-	repeat until application "Atom" is running
-		delay .1
+	repeat until application "${EDITOR}" is running
+		delay 2
 	end repeat
 
 	tell application "System Events" to tell application process "${EDITOR}"
