@@ -2,14 +2,14 @@ sjo() {
 # open simple javascript project 
 
 
-if [[ ! -z $1 ]]; then      # if sjo was given an argument
+if [[ ! -z $1 ]]; then             # if sjo was given an argument
 	if [[ -a $1/.sj ]]; then         # and it's a sj project
 		cd $1 || exit; sjOpenProject;  # open the project
 	else                             # otherwise
 		sjError                        # Print Error
 	fi
 
-else                       # if sjo was NOT given an argument
+else                               # if sjo was NOT given an argument
 	if [[ -a .sj ]]; then            # but the folder we're in is an sj project
 		sjOpenProject                  # open the sj project
 	else                             # otherwise
@@ -110,6 +110,6 @@ EOF
 
 
 sjrun() {
-(jade -w --pretty *.jade) | (browser-sync start --server --files="*.jade,js/*.js")
+(pug -w --pretty *.pug) | (browser-sync start --server --files="*.pug,js/*.js" --browser="Google Chrome")
 }; sjrun
 } # end sjOpenProject

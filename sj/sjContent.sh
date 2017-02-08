@@ -2,8 +2,8 @@ sjContent() {
 # sj content wrapper function
 
 sjContent.index() {
-# Populate index.jade with starter content
-cat <<EOF >> index.jade
+# Populate index.pug with starter content
+cat <<EOF >> index.pug
 body
 	script(src='js/library.js')
 	script(src="js/$PROJECT.js")

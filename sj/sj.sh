@@ -10,16 +10,16 @@ if [[ -z $1 ]]; then # check if argument is empty
 else
 # if argument is not empty => create the project
 
-PROJECT=$1
+PROJECT=$1 #store entered argument in the PROJECT variable
 
 # Create Project Stucture
-d $PROJECT                 # project folder
-d $PROJECT/js              # js folder
-f $PROJECT/.sj             # create hidden, 'sj' project identifier file
-f $PROJECT/js/$PROJECT.js  # javascript file we'll work on
+d $PROJECT/src                 # project folder
+d $PROJECT/src/js              # js folder
+f $PROJECT/src/.sj             # create hidden, 'sj' project identifier file
+f $PROJECT/src/js/$PROJECT.js  # javascript file we'll work on
 
 # go into project folder
-cd $PROJECT || exit
+cd $PROJECT/src || exit
 
 # starter content
 sjContent.index
