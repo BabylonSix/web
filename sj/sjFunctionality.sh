@@ -55,8 +55,8 @@ on moveEditor()
 
 	tell application "System Events" to tell application process "${EDITOR}"
 		get properties of window 1
-		set size of window 1 to {$w1_4, $h2_3}
-		set position of window 1 to {$w3_4, 0}
+		set size of window 1 to {$w1_3, $h2_3}
+		set position of window 1 to {$w2_3, 0}
 	end tell
 
 end moveEditor
@@ -75,8 +75,8 @@ on moveBrowser()
 			tell application "System Events" to tell application process "Google Chrome"
 				try
 					get properties of window 1
-					set size of window 1 to {$w1_4, $h1_3}
-					set position of window 1 to {$w3_4, $h2_3}
+					set size of window 1 to {$w1_3, $h1_3}
+					set position of window 1 to {$w2_3, $h2_3}
 				end try
 			end tell
 		end if
