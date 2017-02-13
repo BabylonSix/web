@@ -37,7 +37,7 @@ function example ( exName, ...exCode ) {
   // example name + newline
   let example = [exName + '\n']
     // combine with all formated example code
-    .concat( exCode.map( (x)=> \`    \${x}\n\` ) )
+    .concat( exCode.map( (x) => `    ${JSON.stringify(x)}\n` ) )
     // combine all arrays separated by a newline
     .join('\n')
     // add a few newlines after ex function to
