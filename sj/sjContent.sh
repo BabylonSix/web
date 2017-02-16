@@ -6,7 +6,7 @@ sjContent.index() {
 cat <<EOF >> index.pug
 body
 	script(src='js/library.js')
-	script(src="js/$PROJECT.js")
+	script(src='js/$PROJECT.js')
 EOF
 }
 
