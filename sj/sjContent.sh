@@ -4,14 +4,18 @@ sjContent() {
 sjContent.index() {
 # Populate index.pug with starter content
 cat <<EOF >> index.pug
-body
-  link(rel='stylesheet' href='css/style.css')
+doctype
+
+html(lang='en')
+  head
+    link(rel='stylesheet' href='css/style.css')
+
+  body
 
 
 
-  script(src='js/library.js')
-  script(src='js/$PROJECT.js')
-EOF
+    script(src='js/library.js')
+    script(src='js/grid.js')
 }
 
 
