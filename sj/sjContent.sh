@@ -5,8 +5,12 @@ sjContent.index() {
 # Populate index.pug with starter content
 cat <<EOF >> index.pug
 body
-	script(src='js/library.js')
-	script(src='js/$PROJECT.js')
+  link(rel='stylesheet' href='css/style.css')
+
+
+
+  script(src='js/library.js')
+  script(src='js/$PROJECT.js')
 EOF
 }
 

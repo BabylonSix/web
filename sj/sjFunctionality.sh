@@ -110,6 +110,6 @@ EOF
 
 
 sjrun() {
-(pug -w --pretty ./**/*.pug) | (browser-sync start --server --files="./**/*.pug,js/**/*.js" --browser="Google Chrome")
+(pug -w --pretty ./**/*.pug) | (browser-sync start --server --files="./**/*.pug,js/**/*.js" --browser="Google Chrome") | (stylus -w ./**/*.styl) 
 }; sjrun
 } # end sjOpenProject
