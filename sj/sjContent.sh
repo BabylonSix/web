@@ -21,7 +21,8 @@ doctype html
 
 html(lang='en')
   head
-    link(rel='stylesheet' href='css/style.css')
+    link(rel='stylesheet' href='css/library.css')
+    link(rel='stylesheet' href='css/${PROJECT}.css')
 
   body
     .web-page
@@ -38,9 +39,9 @@ EOF
 
 
 
-sjContent.style() {
+sjContent.cssLibrary() {
 # Populate style.styl with starter content
-cat <<EOF >> css/style.styl
+cat <<EOF >> css/library.styl
 *
   box-sizing border-box
 
@@ -49,7 +50,7 @@ EOF
 
 
 
-sjContent.library() {
+sjContent.jsLibrary() {
 # Populate library.js with starter content
 cat <<EOF >> js/library.js
 function log(...x) {

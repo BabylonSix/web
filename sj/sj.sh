@@ -18,7 +18,8 @@ d $PROJECT/js              # js folder
 d $PROJECT/css
 d $PROJECT/assets
 f $PROJECT/.sj             # create hidden, 'sj' project identifier file
-f $PROJECT/css/style.styl
+
+f $PROJECT/css/$PROJECT.styl # css file we will work on
 f $PROJECT/js/$PROJECT.js  # javascript file we'll work on
 
 # go into project folder
@@ -26,8 +27,8 @@ cd $PROJECT/ || exit
 
 # starter content
 sjContent.index
-sjContent.style
-sjContent.library
+sjContent.cssLibrary
+sjContent.jsLibrary
 sjContent.gitignore
 
 # version control the project
