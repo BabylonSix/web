@@ -1,21 +1,51 @@
 sjContent() {
 # sj content wrapper function
 
+
+sjContent.gitignore() {
+# create .gitignore file
+# we will ignore all generated files, eg: html, css, etc…
+cat <<EOF >> .gitignore
+.DS_Store
+*.html
+*.css
+EOF
+}
+
+
+
 sjContent.index() {
 # Populate index.pug with starter content
 cat <<EOF >> index.pug
-doctype
+doctype html
 
 html(lang='en')
   head
     link(rel='stylesheet' href='css/style.css')
 
   body
-
-
+    .web-page
+      include ./webpage.pug
 
     script(src='js/library.js')
     script(src='js/grid.js')
+EOF
+
+cat <<EOF >> webpage.pug
+h1 Starter Webpage
+EOF
+}
+
+
+
+sjContent.style() {
+# Populate style.styl with starter content
+cat <<EOF >> css/style.styl
+*
+  box-sizing: border-box
+
+
+EOF
 }
 
 
@@ -57,16 +87,5 @@ function example ( exName, ...exCode ) {
 EOF
 }
 
-
-
-sjContent.gitignore() {
-# create .gitignore file
-# we will ignore all generated files, eg: html, css, etc…
-cat <<EOF >> .gitignore
-.DS_Store
-*.html
-*.css
-EOF
-}
 
 }

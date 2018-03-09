@@ -19,7 +19,6 @@ fi
 }
 
 
-
 sjError() {
 	# Print Error
 	print '\n${RED}ERROR:${NC}'
@@ -30,86 +29,13 @@ sjError() {
 }
 
 
-
-sjOpenProject() {
-# Wrapper function for all simple javascript funcitonality
-
+sjOpenProject() { # start sjOpenProject
 # open currecnt directory in text editor
 ot .
 
-sjStartProject() {
-
-osascript <<EOF
-delay .5
-moveEditor()
-delay .5
-moveBrowser()
-delay .5
-openDevTools()
-
-
-on moveEditor()
-	repeat until application "${EDITOR}" is running
-		delay 2
-	end repeat
-
-	tell application "System Events" to tell application process "${EDITOR}"
-		get properties of window 1
-		set size of window 1 to {$w1_3, $h2_3}
-		set position of window 1 to {$w2_3, 0}
-	end tell
-
-end moveEditor
-
-
-
-on moveBrowser()
-
-	tell application "Google Chrome"
-		activate
-		repeat until it is running
-			delay .2
-		end repeat
-
-		if it is running then
-			tell application "System Events" to tell application process "Google Chrome"
-				try
-					get properties of window 1
-					set size of window 1 to {$w1_3, $h1_3}
-					set position of window 1 to {$w2_3, $h2_3}
-				end try
-			end tell
-		end if
-	end tell
-
-end moveBrowser
-
-
-
-
-on openDevTools()
-
-	tell application "Google Chrome"
-		activate
-	end tell
-
-	tell application "System Events" to tell application process "Google Chrome"
-		keystroke "j" using {option down, command down}
-	  delay .8
-	  keystroke "r" using {command down}
-	end tell
-
-	tell application "${EDITOR}"
-		activate
-	end tell
-
-end openDevTools
-EOF
-}; sjStartProject &
-
-
-
 sjrun() {
-(pug -w --pretty ./**/*.pug) | (stylus -w ./**/*.styl) | (browser-sync start --server --files="./**/*.pug,js/**/*.js, ./**/*.styl" --browser="Google Chrome")
+(pug -w --pretty ./index.pug) |
+(stylus -w ./**/*.styl) |
+(browser-sync start --server --files="./**/*.pug,js/**/*.js, ./**/*.styl" --browser="${BROWSER}")
 }; sjrun
 } # end sjOpenProject
