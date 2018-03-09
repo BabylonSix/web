@@ -16,6 +16,7 @@ PROJECT=$1 #store entered argument in the PROJECT variable
 d $PROJECT/                # project folder
 d $PROJECT/js              # js folder
 d $PROJECT/css
+d $PROJECT/assets
 f $PROJECT/.sj             # create hidden, 'sj' project identifier file
 f $PROJECT/css/style.styl
 f $PROJECT/js/$PROJECT.js  # javascript file we'll work on

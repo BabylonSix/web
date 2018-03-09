@@ -28,7 +28,7 @@ html(lang='en')
       include ./webpage.pug
 
     script(src='js/library.js')
-    script(src='js/grid.js')
+    script(src='js/${PROJECT}.js')
 EOF
 
 cat <<EOF >> webpage.pug
