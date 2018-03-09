@@ -42,7 +42,7 @@ sjContent.style() {
 # Populate style.styl with starter content
 cat <<EOF >> css/style.styl
 *
-  box-sizing: border-box
+  box-sizing border-box
 
 EOF
 }
