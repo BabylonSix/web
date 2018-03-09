@@ -30,6 +30,7 @@ sjError() {
 
 
 sjOpenProject() { # start sjOpenProject
+
 # open currecnt directory in text editor
 ot .
 
@@ -38,4 +39,5 @@ sjrun() {
 (stylus -w ./**/*.styl) |
 (browser-sync start --server --files="./**/*.pug,js/**/*.js, ./**/*.styl" --browser="${BROWSER}")
 }; sjrun
+
 } # end sjOpenProject

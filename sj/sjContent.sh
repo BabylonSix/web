@@ -44,7 +44,6 @@ cat <<EOF >> css/style.styl
 *
   box-sizing: border-box
 
-
 EOF
 }
 
