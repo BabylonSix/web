@@ -41,7 +41,7 @@ EOF
 
 sjContent.cssLibrary() {
 # Populate style.styl with starter content
-cat <<EOF >> css/library.styl
+cat <<EOF >> styles/library.styl
 *
   box-sizing border-box
 

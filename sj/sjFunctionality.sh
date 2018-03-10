@@ -36,7 +36,7 @@ ot .
 
 sjrun() {
 (pug -w --pretty ./index.pug) |
-(stylus -w ./**/*.styl) |
+(stylus -w ./**/*.styl -o ./css) |
 (browser-sync start --server --files="./**/*.pug,js/**/*.js, ./**/*.styl" --browser="${BROWSER}")
 }; sjrun
 
