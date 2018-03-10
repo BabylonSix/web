@@ -14,14 +14,17 @@ PROJECT=$1 #store entered argument in the PROJECT variable
 
 # Create Project Stucture
 d $PROJECT/                # project folder
-d $PROJECT/js              # js folder
-d $PROJECT/css
-d $PROJECT/styles
-d $PROJECT/assets
+d $PROJECT/src
+d $PROJECT/build
+d $PROJECT/src/js          # js folder
+d $PROJECT/build/js
+d $PROJECT/src/styles      # stylus folder
+d $PROJECT/build/css       # css folder
+d $PROJECT/build/assets    # pictures folder
 f $PROJECT/.sj             # create hidden, 'sj' project identifier file
 
-f $PROJECT/styles/$PROJECT.styl # css file we will work on
-f $PROJECT/js/$PROJECT.js  # javascript file we'll work on
+f $PROJECT/src/styles/$PROJECT.styl # css file we will work on
+f $PROJECT/src/js/$PROJECT.js  # javascript file we'll work on
 
 # go into project folder
 cd $PROJECT/ || exit

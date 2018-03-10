@@ -16,7 +16,7 @@ EOF
 
 sjContent.index() {
 # Populate index.pug with starter content
-cat <<EOF >> index.pug
+cat <<EOF >> src/index.pug
 doctype html
 
 html(lang='en')
@@ -32,7 +32,7 @@ html(lang='en')
     script(src='js/${PROJECT}.js')
 EOF
 
-cat <<EOF >> webpage.pug
+cat <<EOF >> src/webpage.pug
 h1 Starter Webpage
 EOF
 }
@@ -41,7 +41,7 @@ EOF
 
 sjContent.cssLibrary() {
 # Populate style.styl with starter content
-cat <<EOF >> styles/library.styl
+cat <<EOF >> src/styles/library.styl
 *
   box-sizing border-box
 
@@ -52,7 +52,7 @@ EOF
 
 sjContent.jsLibrary() {
 # Populate library.js with starter content
-cat <<EOF >> js/library.js
+cat <<EOF >> src/js/library.js
 function log(...x) {
 	console.log(...x)
 }

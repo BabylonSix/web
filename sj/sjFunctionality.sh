@@ -35,9 +35,10 @@ sjOpenProject() { # start sjOpenProject
 ot .
 
 sjrun() {
-(pug -w --pretty ./index.pug) |
-(stylus -w ./**/*.styl -o ./css) |
-(browser-sync start --server --files="./**/*.pug,js/**/*.js, ./**/*.styl" --browser="${BROWSER}")
+(pug -w --pretty ./src/index.pug -o ./build/) |
+(stylus -w ./src/**/*.styl -o ./build/css) |
+(babel -w ./src/js -d ./build/js) |
+(browser-sync start --server --files="./src/**/*.pug, ./src/js/**/*.js, ./src/**/*.styl" --serveStatic="./build" --browser="${BROWSER}")
 }; sjrun
 
 } # end sjOpenProject
