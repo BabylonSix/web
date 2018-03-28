@@ -21,9 +21,10 @@ kp() {
 		( # prevent global variables by running everything in a sub-shell
 			# for Port# entered passed by the user,
 			# add the following to pkPorts -i TCP:Port#
+			# silence output of errors
 			for pkPort in "$@"
 				do
-					lsof -i TCP:$pkPort | grep LISTEN | awk '{print $2}' | xargs kill -9
+					lsof -i TCP:$pkPort | grep LISTEN | awk '{print $2}' | xargs kill -9 > /dev/null 2>&1
 				done
 		)
 	fi
@@ -31,4 +32,5 @@ kp() {
 
 kpa() {
 	kp 3000 3002 3004 3006 3008 3010 3012 3014 3016 3018 3020
+	print '\n${RED}killed ports 3000-3020${NC}'
 }
