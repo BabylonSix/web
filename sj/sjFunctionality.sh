@@ -22,7 +22,6 @@ sjo() {
 	sjError() {
 		# Print Error
 		print '\n${RED}ERROR:${NC}'
-		print '\n  You tried opening a simple javascript project.'
 		print '\n  This is not a simple javascipt project!'
 		print '\n  Run: ${RED}sj${NC} ${GREEN}<project-name>${NC} command to create a new project.'
 		print '\n  Existing projects have a hidden .sj identifier file.'
@@ -39,9 +38,8 @@ sjo() {
 		(babel -w ./src/js -d ./build/js) |
 		(browser-sync start --server --files="./src/**/*.pug, ./src/js/**/*.js, ./src/**/*.styl" --serveStatic="./build" --browser="${BROWSER}")
 		}; sjrun
-
 	} # end sjOpenProject
 
 	#run sjLogic
-	sjLogic
+	sjLogic $1
 }
