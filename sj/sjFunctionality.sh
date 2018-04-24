@@ -34,7 +34,7 @@ sjo() {
 
 		sjrun() {
 		(pug -w --pretty ./src/index.pug -o ./build/) |
-		(stylus -w ./src/**/*.styl -o ./build/css) |
+		(stylus --sourcemap -w ./src/styles/*.styl -o ./src/css) |
 		(babel -w ./src/js -d ./build/js) |
 		(browser-sync start --server --files="./src/**/*.pug, ./src/js/**/*.js, ./src/**/*.styl" --serveStatic="./build" --browser="${BROWSER}")
 		}; sjrun

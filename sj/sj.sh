@@ -19,6 +19,7 @@ d $PROJECT/build
 d $PROJECT/src/js          # js folder
 d $PROJECT/build/js
 d $PROJECT/src/styles      # stylus folder
+d $PROJECT/src/css
 d $PROJECT/src/styles/colors
 d $PROJECT/src/styles/colors/mixins
 d $PROJECT/build/css       # css folder
