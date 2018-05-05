@@ -2,6 +2,16 @@ sjContent() {
 # sj content wrapper function
 
 
+
+sjContent.sj() {
+# store project name
+cat <<EOF >> .sj
+${PROJECT}
+EOF
+}
+
+
+
 sjContent.gitignore() {
 # create .gitignore file
 # we will ignore all generated files, eg: html, css, etc…
