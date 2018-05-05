@@ -43,7 +43,8 @@ html(lang='en')
 EOF
 
 cat <<EOF >> src/webpage.pug
-h1 Starter Webpage
+.box
+  h1 Starter Webpage
 EOF
 }
 
@@ -92,12 +93,29 @@ sjContent.cssLibrary() {
 # Populate style.styl with starter content
 cat <<EOF >> src/styles/library.styl
 @import 'colors/material-color'
+@import 'colors/hsb'
 
 *
   box-sizing border-box
 
 body
   margin 0
+
+.web-page
+  display grid
+  height 100vh
+  justify-content center
+  align-content center
+
+.box
+  min-width 800px
+  min-height 600px
+  padding 25px
+  background-color silver
+  border-radius 6px
+
+  h1
+    margin-top 0
 
 EOF
 
