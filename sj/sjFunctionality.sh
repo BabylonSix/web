@@ -44,3 +44,66 @@ sjo() {
 	#run sjLogic
 	sjLogic $1
 }
+
+
+
+
+sjb() {
+	# branch simple javascript project 
+
+
+	# in case 1 arg given, eg: sjb arg1
+	# if active directory has .sj file
+	# create sj project branch
+	# otherwise
+	# print error
+
+
+	# in case 2 args given, eg: sjb arg1 arg2
+	# if arg1 is sj project
+	# create sj project branch in arg2 location
+	# otherwise
+	# Print Error
+
+	sjLogic(){
+		if [[ $# -lt 3 ]]; then
+			case $# in
+				'0')
+					sjError; sjCantBranch
+					;;
+				'1')
+					if [[ -a ./.sj ]]; then
+						print 'sj project branch created at ../$1'
+					else
+						sjError; sjCantOpen
+					fi
+					;;
+				'2')
+					if [[ -a $1/.sj ]]; then
+						print '$1 project branch created at $2!'
+					else
+						sjError; sjCantOpen
+					fi
+					;;
+			esac
+		else
+			sjError; sjCantBranch
+		fi
+	} # end sjLogic
+
+
+	sjBranch() { # start sjBranch
+		sjbranch() {
+
+		}; sjbranch
+
+	# # open current directory in text editor
+	# ot .
+	} # end sjBranch
+
+
+
+
+	#run sjLogic
+	sjLogic $@
+}
