@@ -2,6 +2,16 @@ sjContent() {
 # sj content wrapper function
 
 
+
+sjContent.sj() {
+# store project name
+cat <<EOF >> .sj
+${PROJECT}
+EOF
+}
+
+
+
 sjContent.gitignore() {
 # create .gitignore file
 # we will ignore all generated files, eg: html, css, etc…
@@ -33,7 +43,8 @@ html(lang='en')
 EOF
 
 cat <<EOF >> src/webpage.pug
-h1 Starter Webpage
+.box
+  h1 Starter Webpage
 EOF
 }
 
@@ -82,6 +93,7 @@ sjContent.cssLibrary() {
 # Populate style.styl with starter content
 cat <<EOF >> src/styles/library.styl
 @import 'colors/material-color'
+@import 'colors/hsb'
 
 *
   box-sizing border-box
@@ -89,10 +101,37 @@ cat <<EOF >> src/styles/library.styl
 body
   margin 0
 
+.web-page
+  display grid
+  height 100vh
+  justify-content center
+  align-content center
+
+.box
+  min-width 800px
+  min-height 600px
+  padding 25px
+  background-color silver
+  border-radius 6px
+
+  h1
+    margin-top 0
+
 EOF
 
 cat <<EOF >> src/styles/$PROJECT.styl
 @import 'colors/material-color'
+@import 'colors/hsb'
+EOF
+
+cat <<EOF >> src/styles/colors/hsb.styl
+hsb(\$h-hsb, \$s-hsb, \$b-hsb, \$a = 1)
+  if \$b-hsb == 0
+    return hsla(0, 0, 0, \$a)
+  else
+    \$l-hsl = (\$b-hsb / 2) * (2 - (\$s-hsb / 100))
+    \$s-hsl = (\$b-hsb * \$s-hsb) / (\$l-hsl < 50 ? \$l-hsl * 2 : 200 - \$l-hsl * 2)
+    return hsla(\$h-hsb, \$s-hsl, \$l-hsl, \$a)
 EOF
 
 cat <<EOF >> src/styles/colors/mixins/class-generator.styl

@@ -6,27 +6,17 @@ sjo() {
 			if [[ -a $1/.sj ]]; then         # and it's a sj project
 				cd $1 || exit; sjOpenProject;  # open the project
 			else                             # otherwise
-				sjError                        # Print Error
+				sjError; sjCantOpen            # Print Error
 			fi
 
 		else                               # if sjo was NOT given an argument
-			if [[ -a .sj ]]; then            # but the folder we're in is an sj project
+			if [[ -a .sj ]]; then            # but the folder we're in is a sj project
 				sjOpenProject                  # open the sj project
 			else                             # otherwise
-				sjError                        # Print Error
+				sjError; sjCantOpen            # Print Error
 			fi
 		fi
 	} # end sjLogic
-
-
-	sjError() {
-		# Print Error
-		print '\n${RED}ERROR:${NC}'
-		print '\n  This is not a simple javascipt project!'
-		print '\n  Run: ${RED}sj${NC} ${GREEN}<project-name>${NC} command to create a new project.'
-		print '\n  Existing projects have a hidden .sj identifier file.'
-	} # end sjError
-
 
 	sjOpenProject() { # start sjOpenProject
 		# open current directory in text editor
@@ -43,4 +33,67 @@ sjo() {
 
 	#run sjLogic
 	sjLogic $1
+}
+
+
+
+
+sjb() {
+	# branch simple javascript project 
+
+
+	# in case 1 arg given, eg: sjb arg1
+	# if active directory has .sj file
+	# create sj project branch
+	# otherwise
+	# print error
+
+
+	# in case 2 args given, eg: sjb arg1 arg2
+	# if arg1 is sj project
+	# create sj project branch in arg2 location
+	# otherwise
+	# Print Error
+
+	sjLogic(){
+		if [[ $# -lt 3 ]]; then
+			case $# in
+				'0')
+					sjError; sjCantBranch
+					;;
+				'1')
+					if [[ -a ./.sj ]]; then
+						print 'sj project branch created at ../$1'
+					else
+						sjError; sjCantOpen
+					fi
+					;;
+				'2')
+					if [[ -a $1/.sj ]]; then
+						print '$1 project branch created at $2!'
+					else
+						sjError; sjCantOpen
+					fi
+					;;
+			esac
+		else
+			sjError; sjCantBranch
+		fi
+	} # end sjLogic
+
+
+	sjBranch() { # start sjBranch
+		sjbranch() {
+
+		}; sjbranch
+
+	# # open current directory in text editor
+	# ot .
+	} # end sjBranch
+
+
+
+
+	#run sjLogic
+	sjLogic $@
 }

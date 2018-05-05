@@ -4,9 +4,7 @@ sj() {
 sjContent
 
 if [[ -z $1 ]]; then # check if argument is empty
-	print '\n${RED}ERROR:${NC}'
-	print '\n  Project Name Missing!' # if argument is empty
-	print '\n  ${GREEN}sj${NC} ${RED}<project name>${NC}' # if argument is empty
+	sjError; sjMissingName
 else
 # if argument is not empty => create the project
 
