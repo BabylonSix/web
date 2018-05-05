@@ -2,14 +2,14 @@ sjError() {
   # Existing sj projects have a hidden .sj identifier file
   # If this file is missing, the project will not be recognized
 
-  sjMissingName() {
+  sjError.MissingName() {
     # Print Error when missing project name
     print '\n${RED}ERROR:${NC}'
     print '\n  ${PINK}Project Name Missing!${NC}' # if argument is empty
     print '\n  Run: ${RED}sj${NC} ${GREEN}<project-name>${NC} to create new sj project' # if argument is empty
   } # end sjMissingName
 
-	sjCantBranch() {
+	sjError.CantBranch() {
 		# Print Error when can't open project
 		print '\n${RED}ERROR:${NC}'
     print '\n  ${PINK}Cannot Branch Project!${NC}'
@@ -19,11 +19,11 @@ sjError() {
 		print '\n  Run: ${RED}sjb${NC} ${GREEN}<sj-project-directory> <branch-name>${NC}\n  to create new branch from existing sj project.'
 	} # end sjCantBranch
 
-	sjCantOpen() {
+	sjError.CantOpen() {
 		# Print Error when cannot branch project
 		print '\n${RED}ERROR:${NC}'
 		print '\n  ${PINK}This is not a simple javascipt project!${NC}'
 		print '\n  Run: ${RED}sj${NC} ${GREEN}<project-name>${NC} to create a new project.'
 	} # end sjCantBranch
 
-} 
+}; sjError

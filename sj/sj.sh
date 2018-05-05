@@ -1,10 +1,10 @@
 sj() {
 
-# import sjContent
-sjContent
+# import sjContent & sjError
+sjContent; sjError
 
 if [[ -z $1 ]]; then # check if argument is empty
-	sjError; sjMissingName
+	sjError.MissingName
 else
 # if argument is not empty => create the project
 
