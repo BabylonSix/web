@@ -93,6 +93,17 @@ EOF
 
 cat <<EOF >> src/styles/$PROJECT.styl
 @import 'colors/material-color'
+@import 'colors/hsb'
+EOF
+
+cat <<EOF >> src/styles/colors/hsb.styl
+hsb(\$h-hsb, \$s-hsb, \$b-hsb, \$a = 1)
+  if \$b-hsb == 0
+    return hsla(0, 0, 0, \$a)
+  else
+    \$l-hsl = (\$b-hsb / 2) * (2 - (\$s-hsb / 100))
+    \$s-hsl = (\$b-hsb * \$s-hsb) / (\$l-hsl < 50 ? \$l-hsl * 2 : 200 - \$l-hsl * 2)
+    return hsla(\$h-hsb, \$s-hsl, \$l-hsl, \$a)
 EOF
 
 cat <<EOF >> src/styles/colors/mixins/class-generator.styl
