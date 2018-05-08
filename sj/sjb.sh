@@ -1,11 +1,6 @@
 sjb() {
 # branch simple javascript project 
 
-# TODO:
-# 1) Single Argument Logic
-# 2) Two Argument Logic
-# 3) uncomment # ot .
-
 sjLogic(){
 	if [[ $# -lt 3 ]]; then # when less than 3 arguments are entered
 		case $# in
@@ -14,8 +9,12 @@ sjLogic(){
 				;;
 			'1') # for one arguments
 				if [[ -a ./.sj ]]; then # if active directory has .sj file
-					ga .
-					gc 
+					#set projectName to current directory
+					sj_projectName=$(printf '%s\n' "${PWD##*/}")
+					# set branchName to argument
+					sj_branchName=$1
+
+					sjBranch
 					# create sj project branch
 					# otherwise
 					# print error
@@ -25,6 +24,17 @@ sjLogic(){
 				;;
 			'2') # for two arguments
 				if [[ -a $1/.sj ]]; then # if arg1 is sj project
+					#set projectName to arg1
+					sj_projectName=$1
+					# set branchName to arg2
+					sj_branchName=$2
+
+					cd $sj_projectName
+
+					# update variable
+					sj_projectName=$(printf '%s\n' "${PWD##*/}")
+
+					sjBranch
 					# create sj project branch in arg2 location
 					# otherwise
 					# Print Error
@@ -39,18 +49,43 @@ sjLogic(){
 } # end sjLogic
 
 
+sjGitUpdateProjectName() {
+	ga .
+	gc changed project name from \<$sj_projectName\> to \<$sj_branchName\>
+} # end sjGitUpdateProjectName
+
+
 sjBranch() { # start sjBranch
-	sjbranch() {
+	# copy sjProject to branchName
+	cp -r . ../$sj_branchName
 
-	}; sjbranch
+	# go to the new directory
+	cd ../$sj_branchName
+	
+	# erase old css and html files
+	trash ./**/*.{css,html}*
 
-# 3rd TODO item
-# open current directory in text editor
-# ot .
+	# replace all instances of <sj_projectName> with <sj_branchName> in index.pug file
+	cat ./src/index.pug | sed -E "s/$sj_projectName/$sj_branchName/g" | tee ./src/index.pug
+
+	# rename all project  files of type <pName.*> to <bName.*>
+	sjRenameFileNames $sj_projectName $sj_branchName
+
+	# update git with branchName
+	sjGitUpdateProjectName
+
+	# start project
+	sjo .
 } # end sjBranch
 
 
-
+# rename multiple files in same directory
+sjRenameFileNames() {
+  # declare local variables
+  local oldNamePattern="(**/)$1(.*)"
+  local newNamePattern="\$1$2\$2"
+  zmv $oldNamePattern $newNamePattern
+} # end sj_rn
 
 #run sjLogic
 sjLogic $@
