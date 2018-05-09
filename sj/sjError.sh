@@ -26,4 +26,10 @@ sjError.CantOpen() {
 	print '\n  Run: ${RED}sj${NC} ${GREEN}<project-name>${NC} to create a new project.'
 } # end sjCantBranch
 
+
+sjError.NameClash() {
+	print '\n${RED}ERROR:${NC}'
+	print '\n  ${PINK}Project with this name already exists!${NC}'
+	print '\n  Run: ${RED}sj${NC} ${GREEN}<unique-project-name>${NC} to create a new project.'
+} # end NameClash
 }; sjError
