@@ -66,7 +66,9 @@ sjBranch() { # start sjBranch
 	trash ./**/*.{css,html}*
 
 	# replace all instances of <sj_projectName> with <sj_branchName> in index.pug file
-	cat ./src/index.pug | sed -E "s/$sj_projectName/$sj_branchName/g" | tee ./src/index.pug
+	cat ./src/index.pug \
+		| sed -E "s/$sj_projectName/$sj_branchName/g" \
+		| tee ./src/index.pug
 
 	# rename all project  files of type <pName.*> to <bName.*>
 	sjRenameFileNames $sj_projectName $sj_branchName
