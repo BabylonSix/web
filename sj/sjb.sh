@@ -10,9 +10,9 @@ sjLogic(){
 			'1') # for one arguments
 				if [[ -a ./.sj ]]; then # if active directory has .sj file
 					#set projectName to current directory
-					sj_projectName=$(printf '%s\n' "${PWD##*/}")
+					local sj_projectName=$(printf '%s\n' "${PWD##*/}")
 					# set branchName to argument
-					sj_branchName=$1
+					local sj_branchName=$1
 
 					sjBranch
 					# create sj project branch
@@ -25,14 +25,14 @@ sjLogic(){
 			'2') # for two arguments
 				if [[ -a $1/.sj ]]; then # if arg1 is sj project
 					#set projectName to arg1
-					sj_projectName=$1
+					local sj_projectName=$1
 					# set branchName to arg2
-					sj_branchName=$2
+					local sj_branchName=$2
 
 					cd $sj_projectName
 
 					# update variable
-					sj_projectName=$(printf '%s\n' "${PWD##*/}")
+					local sj_projectName=$(printf '%s\n' "${PWD##*/}")
 
 					sjBranch
 					# create sj project branch in arg2 location

@@ -10,7 +10,7 @@ elif [[ -d $1 ]]; then
 else
 # if argument is not empty => create the project
 
-PROJECT=$1 #store entered argument in the PROJECT variable
+local PROJECT=$1 #store entered argument in the PROJECT variable
 
 # Create Project Stucture
 d $PROJECT/                # project folder
