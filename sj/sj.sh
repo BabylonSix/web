@@ -5,7 +5,7 @@ sjContent; sjError
 
 if [[ -z $1 ]]; then # check if argument is empty
 	sjError.MissingName
-elif [[ -d $1 ]]; then
+elif [[ -d $1 ]]; then # check if project with same name exists
 	sjError.NameClash
 else
 # if argument is not empty => create the project
