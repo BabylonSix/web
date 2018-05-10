@@ -8,18 +8,22 @@ sjLogic() {
 				sjError.CantBranch
 				;;
 			'1') # for one arguments
-				if [[ -a ./.sj ]]; then # if active directory has .sj file
-					#set projectName to current directory
-					local sj_projectName=$(printf '%s\n' "${PWD##*/}")
-					# set branchName to argument
-					local sj_branchName=$1
-
-					sjBranch
-					# create sj project branch
-					# otherwise
-					# print error
-				else
+				if [[ $1 = . ]]; then # if a . is entered as an argument
+					# throw a branching error
 					sjError.CantBranch
+				else
+					
+					if [[ -a ./.sj ]]; then # if active directory has .sj file
+						#set projectName to current directory
+						local sj_projectName=$(printf '%s\n' "${PWD##*/}")
+						# set branchName to argument
+						local sj_branchName=$1
+
+						sjBranch
+
+					else
+						sjError.CantBranch
+					fi
 				fi
 				;;
 			'2') # for two arguments
