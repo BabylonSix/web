@@ -10,5 +10,6 @@
 . ~/bin/web/sj/sj.sh
 . ~/bin/web/sj/sjo.sh
 . ~/bin/web/sj/sjb.sh
+. ~/bin/web/sj/sjTools.sh
 . ~/bin/web/projects.sh
 . ~/bin/web/web-commands.sh
