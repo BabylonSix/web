@@ -1,7 +1,7 @@
 sjb() {
 # branch simple javascript project 
 
-sjLogic(){
+sjLogic() {
 	if [[ $# -lt 3 ]]; then # when less than 3 arguments are entered
 		case $# in
 			'0') # for zero arguments
