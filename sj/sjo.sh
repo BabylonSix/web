@@ -21,7 +21,12 @@ sjLogic(){
   fi
 } # end sjLogic
 
+
+
 sjOpenProject() { # start sjOpenProject
+  # display: Opening X Project 
+  print "${GREEN}\nServe Project:${NC} ${PINK}$(printf '%s\n' "${PWD##*/}")\n${NC}"
+
   # open current directory in text editor
   ot .
 

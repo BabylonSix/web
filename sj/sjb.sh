@@ -6,7 +6,7 @@ sjLogic() {
 		case $# in
 			'0') # for zero arguments
 				sjError.CantBranch
-				;;
+			;;
 			'1') # for one arguments
 				if [[ $1 = . ]]; then # if a . is entered as an argument
 					# throw a branching error
@@ -25,7 +25,7 @@ sjLogic() {
 						sjError.CantBranch
 					fi
 				fi
-				;;
+			;;
 			'2') # for two arguments
 				if [[ -a $1/.sj ]]; then # if arg1 is sj project
 					#set projectName to arg1
@@ -39,13 +39,10 @@ sjLogic() {
 					local sj_projectName=$(printf '%s\n' "${PWD##*/}")
 
 					sjBranch
-					# create sj project branch in arg2 location
-					# otherwise
-					# Print Error
 				else
 					sjError.CantBranch
 				fi
-				;;
+			;;
 		esac
 	else
 		sjError.CantBranch
@@ -53,13 +50,10 @@ sjLogic() {
 } # end sjLogic
 
 
-sjGitUpdateProjectName() {
-	ga .
-	gc changed project name from \<$sj_projectName\> to \<$sj_branchName\>
-} # end sjGitUpdateProjectName
-
-
-sjBranch() { # start sjBranch
+sjBranch() {
+	# start sjBranch
+	print "\n${GREEN}Branching Project:${NC}\n\n$sj_projectName \-\> $sj_branchName\n"
+	
 	# copy sjProject to branchName
 	cp -r . ../$sj_branchName
 
@@ -69,10 +63,17 @@ sjBranch() { # start sjBranch
 	# erase old css and html files
 	trash ./**/*.{css,html}*
 
+
+	# suppress std-out
+	disableOutput
+
 	# replace all instances of <sj_projectName> with <sj_branchName> in index.pug file
 	cat ./src/index.pug \
 		| sed -E "s/$sj_projectName/$sj_branchName/g" \
 		| tee ./src/index.pug
+
+	# re-enable std-out
+	enableOutput
 
 	# rename all project  files of type <pName.*> to <bName.*>
 	sjRenameFileNames $sj_projectName $sj_branchName
@@ -81,8 +82,16 @@ sjBranch() { # start sjBranch
 	sjGitUpdateProjectName
 
 	# start project
+	print "\n"
 	sjo .
 } # end sjBranch
+
+
+sjGitUpdateProjectName() {
+	print "\n\n${GREEN}Source Control:${NC}\n"
+	ga .
+	gc changed project name from \<$sj_projectName\> to \<$sj_branchName\>
+} # end sjGitUpdateProjectName
 
 
 # rename multiple files in same directory
@@ -90,7 +99,7 @@ sjRenameFileNames() {
   # declare local variables
   local oldNamePattern="(**/)$1(.*)"
   local newNamePattern="\$1$2\$2"
-  zmv $oldNamePattern $newNamePattern
+  $(zmv $oldNamePattern $newNamePattern)
 } # end sj_rn
 
 #run sjLogic

@@ -26,15 +26,20 @@ sjError.CantOpen() {
 	print '\n  Run: ${RED}sj${NC} ${GREEN}<project-name>${NC} to create a new project.'
 } # end CantOpen
 
-
 sjError.NameClash() {
 	print '\n${RED}ERROR:${NC}'
 	print '\n  ${PINK}Project with this name already exists!${NC}'
 	print '\n  Run: ${RED}sj${NC} ${GREEN}<unique-project-name>${NC} to create a new project.'
 } # end NameClash
 
-sjError.TooManyArguments () {
-  print '\n  ${PINK}Too many arguments entered!${NC}'
+sjError.TooManyArguments() {
   print '\n${RED}ERROR:${NC}'
+  print '\n  ${PINK}Too many arguments entered!${NC}'
 } # end TooManyArguments
+
+sjError.ShortName() {
+  print '\n${RED}ERROR:${NC}'
+	print '\n  ${PINK}The name is too short!${NC}'
+	print '\n  ${GREEN}<project-name>${NC} needs to be at least 4 characters long'
+} # end ShortName
 }; sjError
