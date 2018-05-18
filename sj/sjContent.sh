@@ -16,9 +16,24 @@ sjContent.gitignore() {
 # create .gitignore file
 # we will ignore all generated files, eg: html, css, etc…
 cat <<EOF >> .gitignore
+# mac spotlight files
 .DS_Store
+
+
+# build folder
+build/
+
+
+# all html and css files
 *.html
 *.css
+*.css.map
+
+
+# stylus color functions
+class-generator.styl
+material-color.styl
+hsb.styl
 EOF
 }
 
