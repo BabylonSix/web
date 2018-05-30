@@ -117,8 +117,7 @@ cat <<EOF >> src/styles/library.styl
 .web-page
   display grid
   height 100vh
-  justify-content center
-  align-content center
+  place-content center
 
 .box
   min-width 800px
