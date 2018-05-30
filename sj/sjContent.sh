@@ -110,10 +110,8 @@ cat <<EOF >> src/styles/library.styl
 @import 'colors/material-color'
 @import 'colors/hsb'
 
-*
+*, *::before, *::after
   box-sizing border-box
-
-body
   margin 0
 
 .web-page
