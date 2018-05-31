@@ -31,11 +31,11 @@ sjOpenProject() { # start sjOpenProject
   ot .
 
   sjrun() {
-  (pug -w --pretty ./src/index.pug -o ./build/) \
+  (pug -w --pretty ./src/pug/{page/,index.pug} -o ./build/) \
     | (stylus --sourcemap -w ./src/styles/*.styl -o ./src/css) \
     | (postcss -w ./src/css/*.css --use autoprefixer -d ./build/css) \
     | (babel -w ./src/js -d ./build/js) \
-    | (browser-sync start --server --files="./src/**/*.pug, ./src/js/**/*.js, ./src/**/*.styl" \
+    | (browser-sync start --server --files="./src/pug/**/*.pug, ./src/js/**/*.js, ./src/**/*.styl" \
         --serveStatic="./build" --browser="${BROWSER}")
   }; sjrun
 } # end sjOpenProject
