@@ -20,13 +20,16 @@ print "${GREEN}\nCreate Project:${NC} ${PINK}$1${NC}\n"
 # Create Project Stucture
 d $PROJECT/                # project folder
 d $PROJECT/src
-d $PROJECT/build
+d $PROJECT/src/pug         # pug folder
+d $PROJECT/src/pug/pages   # extra web-pages
+d $PROJECT/src/pug/views   # modules and templates
 d $PROJECT/src/js          # js folder
-d $PROJECT/build/js
 d $PROJECT/src/styles      # stylus folder
 d $PROJECT/src/css
 d $PROJECT/src/styles/colors
 d $PROJECT/src/styles/colors/mixins
+d $PROJECT/build/js
+d $PROJECT/build
 d $PROJECT/build/css       # css folder
 d $PROJECT/build/assets    # pictures folder
 f $PROJECT/.sj             # create hidden, 'sj' project identifier file
