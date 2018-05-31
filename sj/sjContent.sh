@@ -41,7 +41,7 @@ EOF
 
 sjContent.index() {
 # Populate index.pug with starter content
-cat <<EOF >> src/index.pug
+cat <<EOF >> src/pug/index.pug
 doctype html
 
 html(lang='en')
@@ -57,7 +57,7 @@ html(lang='en')
     script(src='js/${PROJECT}.js')
 EOF
 
-cat <<EOF >> src/webpage.pug
+cat <<EOF >> src/pug/webpage.pug
 .box
   h1 Starter Webpage
 EOF
