@@ -16,14 +16,14 @@ sjLogic(){
     if [[ -a .sj ]]; then            # but the folder we're in is a sj project
       sjOpenProject                  # open the sj project
     else                             # otherwise
-      sjError.CantOpen             # Print Error
+      sjError.CantOpen               # Print Error
     fi
   fi
 } # end sjLogic
 
 
 
-sjOpenProject() { # start sjOpenProject
+local sjOpenProject() { # start sjOpenProject
   # display: Opening X Project 
   print "${GREEN}\nServe Project:${NC} ${PINK}$(printf '%s\n' "${PWD##*/}")\n${NC}"
 
