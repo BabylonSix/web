@@ -4,7 +4,7 @@ sjo() {
 # import sjError
 sjError
 
-sjLogic(){
+local sjLogic(){
   if [[ ! -z $1 ]]; then             # if sjo was given an argument
     if [[ -a $1/.sj ]]; then         # and it's a sj project
       cd $1 || exit; sjOpenProject;  # open the project
@@ -31,7 +31,7 @@ local sjOpenProject() { # start sjOpenProject
   ot .
 
   sjrun() {
-  (pug -w --pretty ./src/pug/{page/,index.pug} -o ./build/) \
+  (pug -w --pretty ./src/pug/{pages/,index.pug} -o ./build/) \
     | (stylus --sourcemap -w ./src/styles/*.styl -o ./src/css) \
     | (postcss -w ./src/css/*.css --use autoprefixer -d ./build/css) \
     | (babel -w ./src/js -d ./build/js) \
