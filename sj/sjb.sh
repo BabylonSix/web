@@ -68,9 +68,9 @@ sjBranch() {
 	disableOutput
 
 	# replace all instances of <sj_projectName> with <sj_branchName> in index.pug file
-	cat ./src/index.pug \
+	cat ./src/pug/index.pug \
 		| sed -E "s/$sj_projectName/$sj_branchName/g" \
-		| tee ./src/index.pug
+		| tee ./src/pug/index.pug
 
 	# re-enable std-out
 	enableOutput
