@@ -24,6 +24,17 @@ local sjLogic(){
 
 
 local sjOpenProject() { # start sjOpenProject
+
+ 
+  local updateSJProject() {
+    if [[ ! -d ./src/pug ]]; then # if pug folder not present
+      print "\n${GREEN}Updating sjProject ${NC}\n"
+      d ./src/pug/{views,pages}/  # create views and pages directories
+      mv ./src/*.pug ./src/pug/   # move pug files from .src/ to .src/pug
+      print "\n"
+    fi
+  }; updateSJProject
+
   # display: Opening X Project 
   print "${GREEN}\nServe Project:${NC} ${PINK}$(printf '%s\n' "${PWD##*/}")\n${NC}"
 
