@@ -126,9 +126,6 @@ cat <<EOF >> src/styles/library.styl
   background-color silver
   border-radius 6px
 
-  h1
-    margin-top 0
-
 EOF
 
 cat <<EOF >> src/styles/$PROJECT.styl
