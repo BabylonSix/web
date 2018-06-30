@@ -105,14 +105,20 @@ EOF
 
 
 sjContent.cssLibrary() {
-# Populate style.styl with starter content
+# Starter CSS
+cat <<EOF >> src/styles/$PROJECT.styl
+@import 'mixins/index'
+EOF
+
 cat <<EOF >> src/styles/library.styl
-@import 'colors/material-color'
-@import 'colors/hsb'
+@import 'mixins/index'
 
 *, *::before, *::after
   box-sizing border-box
+  padding 0
   margin 0
+  border 0
+  font-family sans-serif
 
 .web-page
   display grid
@@ -128,12 +134,27 @@ cat <<EOF >> src/styles/library.styl
 
 EOF
 
-cat <<EOF >> src/styles/$PROJECT.styl
-@import 'colors/material-color'
+cat <<EOF >> src/styles/mixins/index.styl
 @import 'colors/hsb'
+@import 'colors/material-color'
+@import 'utilities/sizes'
 EOF
 
-cat <<EOF >> src/styles/colors/hsb.styl
+cat <<EOF >> src/styles/mixins/utilities/sizes.styl
+// asign width and height with one mixin
+size(\$x=0, \$y=0)
+  if (\$y == 0) // if only one value entered
+    \$y = \$x    // use it for both x & y
+  width \$x
+  height \$y
+
+// quick icon creation
+icon(\$url, \$width=0, \$height=0)
+  background url(\$url) no-repeat center
+  size(\$width, \$height)
+EOF
+
+cat <<EOF >> src/styles/mixins/colors/hsb.styl
 hsb(\$h-hsb, \$s-hsb, \$b-hsb, \$a = 1)
   if \$b-hsb == 0
     return hsla(0, 0, 0, \$a)
@@ -143,7 +164,7 @@ hsb(\$h-hsb, \$s-hsb, \$b-hsb, \$a = 1)
     return hsla(\$h-hsb, \$s-hsl, \$l-hsl, \$a)
 EOF
 
-cat <<EOF >> src/styles/colors/mixins/class-generator.styl
+cat <<EOF >> src/styles/mixins/colors/class-generator.styl
 material-color-class(name, property = color) {
   // If you want to do just one particular color
   if name != 'all' {
@@ -184,7 +205,7 @@ material-color-class(name, property = color) {
 
 EOF
 
-cat <<EOF >> src/styles/colors/material-color.styl
+cat <<EOF >> src/styles/mixins/colors/material-color.styl
 // ==========================================================================
 //
 // Name:        UI Color Palette

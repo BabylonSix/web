@@ -26,8 +26,9 @@ d $PROJECT/src/pug/views   # modules and templates
 d $PROJECT/src/js          # js folder
 d $PROJECT/src/styles      # stylus folder
 d $PROJECT/src/css
-d $PROJECT/src/styles/colors
-d $PROJECT/src/styles/colors/mixins
+d $PROJECT/src/styles/mixins/
+d $PROJECT/src/styles/mixins/colors
+d $PROJECT/src/styles/mixins/utilities
 d $PROJECT/build/js
 d $PROJECT/build
 d $PROJECT/build/css       # css folder
