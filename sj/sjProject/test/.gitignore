@@ -1,0 +1,18 @@
+# mac spotlight files
+.DS_Store
+
+
+# build folder
+build/
+
+
+# all html and css files
+*.html
+*.css
+*.css.map
+
+
+# stylus color functions
+class-generator.styl
+material-color.styl
+hsb.styl

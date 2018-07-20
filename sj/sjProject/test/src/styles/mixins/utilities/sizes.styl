@@ -1,0 +1,11 @@
+// asign width and height with one mixin
+size($x=0, $y=0)
+  if ($y == 0) // if only one value entered
+    $y = $x    // use it for both x & y
+  width $x
+  height $y
+
+// quick icon creation
+icon($url, $width=0, $height=0)
+  background url($url) no-repeat center
+  size($width, $height)
