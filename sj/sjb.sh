@@ -16,8 +16,10 @@ sjLogic() {
         else
           
           if [[ -a ./.sj ]]; then # if active directory has .sj file
+
             #set projectName to current directory
             local sj_projectName=$(printf '%s\n' "${PWD##*/}")
+
             # set branchName to argument
             local sj_branchName=$1
 
@@ -30,8 +32,10 @@ sjLogic() {
       ;;
       '2') # for two arguments
         if [[ -a $1/.sj ]]; then # if arg1 is sj project
+
           #set projectName to arg1
           local sj_projectName=$1
+
           # set branchName to arg2
           local sj_branchName=$2
 
@@ -41,6 +45,7 @@ sjLogic() {
           local sj_projectName=$(printf '%s\n' "${PWD##*/}")
 
           sjBranch
+
         else
           sjError.CantBranch
         fi
@@ -53,6 +58,7 @@ sjLogic() {
 
 
 sjBranch() {
+
   # start sjBranch
   print "\n${GREEN}Branching Project:${NC}\n\n$sj_projectName \-\> $sj_branchName\n"
   
